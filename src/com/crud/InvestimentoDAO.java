@@ -67,7 +67,40 @@ public class InvestimentoDAO {
 			}
 		}
 
+		
 		return lista;
+
+	}
+	
+	public static Investimento getInvestimentoPeloId(String id) {
+
+		
+		Investimento i =null;
+
+		// Gravando o cliente ao banco
+		ResultSet resultSet = null;
+		try {
+
+			CRUD crud = new CRUD();
+			resultSet = crud.getResultSet("SELECT * FROM INVESTIMENTO WHERE id= '" + id + "'");
+
+			while (resultSet.next()) {
+				String idt = resultSet.getInt("id")+"";
+				i = new Investimento(idt, resultSet.getString("nome"),
+						resultSet.getString("valor"), resultSet.getString("data"), resultSet.getString("plano"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				resultSet.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return i;
 
 	}
 	

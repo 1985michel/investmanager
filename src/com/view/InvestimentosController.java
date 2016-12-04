@@ -6,7 +6,11 @@ import java.util.Locale;
 
 import com.MainApp;
 import com.crud.InvestimentoDAO;
+import com.crud.VariacaoRegistroDAO;
 import com.model.Investimento;
+import com.model.Variacao;
+import com.model.VariacaoRegistro;
+import com.util.CalcularVariacao;
 import com.util.EstruturaData;
 import com.util.MascaraFinanceira;
 
@@ -76,8 +80,13 @@ public class InvestimentosController {
 		//Passando a lista para o main
 		MainApp.listaInvestimentos = list;
 		
+		//Calculando as variações com base na atualização mais recente
+		calcularVaricoes();
+		
 		//Apresentando o total investido
 		showTotalInvestido();
+		
+		
 		
 	}
     
@@ -85,7 +94,24 @@ public class InvestimentosController {
 
     
     
- 	/**
+ 	private void calcularVaricoes() {
+		
+ 		for (Investimento i : list) {
+			VariacaoRegistro vr = VariacaoRegistroDAO.getUltimaVariacaoPorRegistroPorInvestimento(i.getId());
+			if(vr!=null){
+				Variacao v = new Variacao(vr.getData(), vr.getValor());
+				i.setVariacao(v);
+			}
+			
+		}
+		
+	}
+
+
+
+
+
+	/**
 	 * Inicializa a classe controller. Método chamado ao carregar o fxml
 	 */
 	@FXML

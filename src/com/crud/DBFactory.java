@@ -29,10 +29,10 @@ public class DBFactory {
 
 		this.comandosDeCriacao.add(criarTabelaInvestimento);
 		
-		String criarTabelaVariacao = "CREATE TABLE VARIACAO (" + "id INTEGER IDENTITY PRIMARY KEY, "
-				+ "idInvestimento VARCHAR(10)," + "data VARCHAR(10)," + "valor VARCHAR(50)," + "plano VARCHAR(5000)," + ");";
+		String criarTabelaVariacaoRegistro = "CREATE TABLE VARIACAOREGISTRO (" + "id INTEGER IDENTITY PRIMARY KEY, "
+				+ "idInvestimento VARCHAR(10)," + "data VARCHAR(10)," + "valor VARCHAR(50)," + ");";
 
-		this.comandosDeCriacao.add(criarTabelaVariacao);
+		this.comandosDeCriacao.add(criarTabelaVariacaoRegistro);
 
 		
 	}

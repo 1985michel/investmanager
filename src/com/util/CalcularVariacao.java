@@ -37,7 +37,7 @@ public static String calc(Variacao v, Investimento i){
 		
 		double valorI = new Double(i);
 		double valorF = new Double(f);
-		double lucro = valorI- valorF;
+		double lucro = valorF - valorI;
 		String lucroString = MascaraFinanceira.show(lucro);
 		return new SimpleStringProperty(lucroString);
 		

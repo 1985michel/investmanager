@@ -8,42 +8,23 @@ import javafx.beans.property.StringProperty;
 
 public class Variacao {
 	
-	private StringProperty id;
-	private StringProperty data;
-	private StringProperty valor;
-	private StringProperty variacao;
+	
+	protected StringProperty data;
+	protected StringProperty valor;
+	protected StringProperty variacao;
 	
 	public Variacao( String data, String valor) {
 		
 		this.data = new SimpleStringProperty(data);
 		this.valor = new SimpleStringProperty(valor);
 	}
-	
-	public Variacao(String id, String data, String valor) {
 		
-		this.id = new SimpleStringProperty(id);
-		this.data = new SimpleStringProperty(data);
-		this.valor = new SimpleStringProperty(valor);
-	}
 
 	public Variacao() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public final StringProperty idProperty() {
-		return this.id;
-	}
-	
-
-	public final java.lang.String getId() {
-		return this.idProperty().get();
-	}
-	
-
-	public final void setId(final java.lang.String id) {
-		this.idProperty().set(id);
-	}
-	
+		
 	public final StringProperty dataProperty() {
 		return this.data;
 	}
@@ -91,7 +72,7 @@ public class Variacao {
 	
 	@Override
 	public String toString() {
-		return "Variacao [id=" + id + ", data=" + data + ", valor=" + valor
+		return "Variacao [ data=" + data + ", valor=" + valor
 				+ ", variacao=" + variacao + "]";
 	}
 	
