@@ -89,7 +89,8 @@ public class InvestimentosController {
 		calcularVaricoes();
 
 		// Apresentando o total investido
-		showTotalInvestido();
+		showBalanco();
+		
 
 	}
 
@@ -166,15 +167,25 @@ public class InvestimentosController {
 
 	}
 
-	private void showTotalInvestido() {
+	private void showBalanco() {
 		double totalInvestido = 0.0;
+		double totalAtual = 0.0;
 
 		for (Investimento i : list) {
 			totalInvestido += new Double(i.getValor());
-		}
+			totalAtual += new Double(i.getVariacao().getValor());
+		}		
+		
+		double lucro = (totalAtual-totalInvestido);
 
 		valorTotalInvestidoLabel.setText(MascaraFinanceira.show(totalInvestido));
+		lucroTotalBrutoLabel.setText(MascaraFinanceira.show(lucro));
+		variacaoLabel.setText(CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual));
 	}
+	
+	
+	
+
 
 	private void permitirAcoes(Investimento newValue) {
 		boolean status = (newValue == null);
