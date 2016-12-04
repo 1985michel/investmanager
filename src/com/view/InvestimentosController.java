@@ -180,7 +180,20 @@ public class InvestimentosController {
 		boolean status = (newValue == null);
 		cadastrarVariacaoButton.setDisable(status);
 		editarInvestimentoButton.setDisable(status);
+		
+		informarInvestimentoParaMainApp(newValue);
 	}
+
+	private void informarInvestimentoParaMainApp(Investimento i) {
+		MainApp.investimentoSelecionado = i;		
+	}
+	
+	@FXML
+	public void handleCadastrarVariacao(){
+		this.mainApp.showCadastrarVariacaoOverview();
+	}
+	
+	
 	
 	
 
