@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.view.MolduraController">
+   <children>
+      <Label layoutX="272.0" layoutY="176.0" text="Moldura" />
+      <MenuBar layoutX="34.0" layoutY="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="1.0" layoutY="105.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="30.0">
+        <items>
+          <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="150.0">
+               <children>
+                  <VBox layoutX="38.0" layoutY="84.0" prefHeight="367.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibirCadastrarInvestimento" text="Cadastrar Investimento" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <BorderPane fx:id="areaDeTrabalhoBorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <center>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+               </center>
+            </BorderPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
