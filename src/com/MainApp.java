@@ -25,8 +25,6 @@ public class MainApp extends Application {
 	public static List<Investimento> listaInvestimentos;
 	public static Investimento investimentoSelecionado;
 
-	
-
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -72,6 +70,7 @@ public class MainApp extends Application {
 
 			// Mostra a scene (cena) contendo o root layout.
 			Scene scene = new Scene(rootLayout);
+			addPersonalStyle(scene);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (IOException e) {
@@ -139,7 +138,7 @@ public class MainApp extends Application {
 			// dialogStage.getIcons().add(new
 			// Image("file:resources/images/edit.png"));
 			Scene scene = new Scene(page);
-			// addPersonalStyle(scene);
+			addPersonalStyle(scene);
 			dialogStage.setScene(scene);
 
 			// Dando ao controlador poderes sobre seu próprio dialogStage
@@ -151,6 +150,18 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addPersonalStyle(Scene scene) {
+
+		try {
+			scene.getStylesheets().clear();
+			setUserAgentStylesheet(null);
+			scene.getStylesheets().add(getClass().getResource("view/modenaDark.css").toExternalForm());
+		} catch (Exception e) {
+			System.out.println("Erro ao aplicar css Dark");
+		}
+
 	}
 
 }

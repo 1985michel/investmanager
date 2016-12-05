@@ -1,8 +1,5 @@
 package com.view;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import com.MainApp;
 import com.crud.InvestimentoDAO;
 import com.crud.VariacaoRegistroDAO;
@@ -178,9 +175,9 @@ public class InvestimentosController {
 		
 		double lucro = (totalAtual-totalInvestido);
 
-		valorTotalInvestidoLabel.setText(MascaraFinanceira.show(totalInvestido));
-		lucroTotalBrutoLabel.setText(MascaraFinanceira.show(lucro));
-		variacaoLabel.setText(CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual));
+		valorTotalInvestidoLabel.setText("R$ "+MascaraFinanceira.show(totalInvestido));
+		lucroTotalBrutoLabel.setText("R$ "+MascaraFinanceira.show(lucro));
+		variacaoLabel.setText((CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual))+"%");
 	}
 	
 	
