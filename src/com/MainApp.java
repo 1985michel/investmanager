@@ -100,7 +100,7 @@ public class MainApp extends Application {
 	
 	//Para ser chamado de fora sem ter que passar parâmetros
 	public void atualizarTelaInvestimentos(){
-		showInvestimentosOverview(molduraController.areaDeTrabalhoBorderPane);
+		retornarATelaInicial();
 	}
 
 	public void showCadastrarInvestimento(BorderPane areaDeTrabalhoBorderPane) {

@@ -43,11 +43,7 @@ public class CadastrarInvestimentoController {
     	
     	Investimento i = new Investimento(nome, valor, data, plano);
     	InvestimentoDAO.investir(i);
-    	/*
-    	for (Investimento inv : InvestimentoDAO.getTodosInvestimentos()) {
-    		System.out.println(inv);
-		}
-    	*/
+    	this.mainApp.retornarATelaInicial();
     }
     
     @FXML
