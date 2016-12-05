@@ -201,6 +201,10 @@ public class InvestimentosController {
 		this.mainApp.showCadastrarVariacaoOverview();
 	}
 	
+	@FXML
+	public void atualizarInvestimento(){
+		this.mainApp.showAtualizarInvestimentoOverview();
+	}
 	
 	
 	

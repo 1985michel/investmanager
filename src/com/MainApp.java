@@ -25,6 +25,18 @@ public class MainApp extends Application {
 	public static List<Investimento> listaInvestimentos;
 	public static Investimento investimentoSelecionado;
 
+	public void addPersonalStyle(Scene scene) {
+
+		try {
+			scene.getStylesheets().clear();
+			setUserAgentStylesheet(null);
+			scene.getStylesheets().add(getClass().getResource("view/modenaDark.css").toExternalForm());
+		} catch (Exception e) {
+			System.out.println("Erro ao aplicar css Dark");
+		}
+
+	}
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -52,6 +64,11 @@ public class MainApp extends Application {
 
 	public void retornarATelaInicial() {
 		showInvestimentosOverview(molduraController.areaDeTrabalhoBorderPane);
+	}
+
+	// Para ser chamado de fora sem ter que passar parâmetros
+	public void atualizarTelaInvestimentos() {
+		retornarATelaInicial();
 	}
 
 	/**
@@ -96,11 +113,6 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	//Para ser chamado de fora sem ter que passar parâmetros
-	public void atualizarTelaInvestimentos(){
-		retornarATelaInicial();
 	}
 
 	public void showCadastrarInvestimento(BorderPane areaDeTrabalhoBorderPane) {
@@ -156,17 +168,42 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-
-	public void addPersonalStyle(Scene scene) {
-
+	
+	public void showAtualizarInvestimentoOverview() {
 		try {
-			scene.getStylesheets().clear();
-			setUserAgentStylesheet(null);
-			scene.getStylesheets().add(getClass().getResource("view/modenaDark.css").toExternalForm());
-		} catch (Exception e) {
-			System.out.println("Erro ao aplicar css Dark");
-		}
 
+			// Load o FXML
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/cadastrarInvestimentoOverview.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Dá ao controlador acesso ao MainApp
+			CadastrarInvestimentoController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.povoarFormulario(MainApp.investimentoSelecionado);
+
+			// Criando o dialogStage
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Atualizar Investimento");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			dialogStage.setResizable(true);
+			// dialogStage.getIcons().add(new
+			// Image("file:resources/images/edit.png"));
+			Scene scene = new Scene(page);
+			addPersonalStyle(scene);
+			dialogStage.setScene(scene);
+
+			// Dando ao controlador poderes sobre seu próprio dialogStage
+			controller.setDialogStage(dialogStage);
+
+			// Show
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+
 
 }
