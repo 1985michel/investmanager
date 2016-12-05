@@ -2,6 +2,7 @@ package com.view;
 
 import com.MainApp;
 import com.crud.VariacaoRegistroDAO;
+import com.model.TextFieldMoney;
 import com.model.VariacaoRegistro;
 import com.util.EstruturaData;
 
@@ -25,7 +26,7 @@ public class CadastrarVariacaoController {
 	private DatePicker dataDatePicker;
 
 	@FXML
-	private TextField valorTextField;
+	private TextFieldMoney valorTextField;
 
 	@FXML
 	private Button registrarButton;
@@ -64,7 +65,7 @@ public class CadastrarVariacaoController {
 	@FXML
 	private void handleOk() {
 		String data = dataDatePicker.getValue().toString();
-		String valor = valorTextField.getText();
+		String valor = valorTextField.getCleanValue();
 
 		okClicked = true;
 
