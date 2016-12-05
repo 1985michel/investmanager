@@ -64,6 +64,9 @@ public class InvestimentosController {
 	@FXML
 	private Button editarInvestimentoButton;
 
+	@FXML
+	private Button excluirInvestimentoButton;
+
 	// Observable list que conterá todos os investimentos
 	public ObservableList<Investimento> list = FXCollections.observableArrayList();
 
@@ -87,7 +90,6 @@ public class InvestimentosController {
 
 		// Apresentando o total investido
 		showBalanco();
-		
 
 	}
 
@@ -171,42 +173,41 @@ public class InvestimentosController {
 		for (Investimento i : list) {
 			totalInvestido += new Double(i.getValor());
 			totalAtual += new Double(i.getVariacao().getValor());
-		}		
-		
-		double lucro = (totalAtual-totalInvestido);
+		}
 
-		valorTotalInvestidoLabel.setText("R$ "+MascaraFinanceira.show(totalInvestido));
-		lucroTotalBrutoLabel.setText("R$ "+MascaraFinanceira.show(lucro));
-		variacaoLabel.setText((CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual))+"%");
+		double lucro = (totalAtual - totalInvestido);
+
+		valorTotalInvestidoLabel.setText("R$ " + MascaraFinanceira.show(totalInvestido));
+		lucroTotalBrutoLabel.setText("R$ " + MascaraFinanceira.show(lucro));
+		variacaoLabel.setText((CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual)) + "%");
 	}
-	
-	
-	
-
 
 	private void permitirAcoes(Investimento newValue) {
 		boolean status = (newValue == null);
 		cadastrarVariacaoButton.setDisable(status);
 		editarInvestimentoButton.setDisable(status);
-		
+		excluirInvestimentoButton.setDisable(status);
+
 		informarInvestimentoParaMainApp(newValue);
 	}
 
 	private void informarInvestimentoParaMainApp(Investimento i) {
-		MainApp.investimentoSelecionado = i;		
+		MainApp.investimentoSelecionado = i;
 	}
-	
+
 	@FXML
-	public void handleCadastrarVariacao(){
+	public void handleCadastrarVariacao() {
 		this.mainApp.showCadastrarVariacaoOverview();
 	}
-	
+
 	@FXML
-	public void atualizarInvestimento(){
+	public void atualizarInvestimento() {
 		this.mainApp.showAtualizarInvestimentoOverview();
 	}
 	
-	
-	
+	@FXML
+	public void excluirInvestimento(){
+		this.mainApp.excluirInvestimento();
+	}
 
 }

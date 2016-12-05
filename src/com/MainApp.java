@@ -2,7 +2,9 @@ package com;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import com.crud.InvestimentoDAO;
 import com.model.Investimento;
 import com.view.CadastrarInvestimentoController;
 import com.view.CadastrarVariacaoController;
@@ -12,6 +14,10 @@ import com.view.MolduraController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -168,7 +174,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void showAtualizarInvestimentoOverview() {
 		try {
 
@@ -205,5 +211,30 @@ public class MainApp extends Application {
 		}
 	}
 
+	public void excluirInvestimento() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("view/modenaDark.css").toExternalForm());
+		dialogPane.getStyleClass().add("view/modenaDark.css");
+
+		alert.setTitle("Deseja Deletar o Investimento?");
+		alert.setHeaderText("");
+		alert.setContentText(
+				"Ao clicar em \"Ok\" você estará APAGANDO TODOS OS DADOS DESSE INVESTIMENTO SEM POSSIBILIDADE DE RECUPERA-LOS.\n\n\n"
+						+ "Você tem certeza desta deleção?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+
+			// Deletando Investimento Do Banco
+			InvestimentoDAO.deletarInvestimento(investimentoSelecionado);
+
+			// Atualizando a View
+			atualizarTelaInvestimentos();
+
+		}
+	}
 
 }
