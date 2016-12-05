@@ -1,5 +1,7 @@
 package com.view;
 
+import java.time.LocalDate;
+
 import com.MainApp;
 import com.crud.VariacaoRegistroDAO;
 import com.model.TextFieldMoney;
@@ -40,7 +42,15 @@ public class CadastrarVariacaoController {
 	public void setMainApp(MainApp main) {
 		this.mainApp = main;
 	}
-
+	
+	/**
+	 * Inicializa a classe controller. Método chamado ao carregar o fxml
+	 */
+	@FXML
+	private void initialize() {
+		//setando a data de hoje no local date
+		dataDatePicker.setValue(LocalDate.now());
+	}
 	/**
 	 * Define o palco deste dialog. Usado para fecha-lo, por exemplo
 	 * 
