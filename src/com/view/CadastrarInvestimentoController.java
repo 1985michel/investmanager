@@ -3,6 +3,7 @@ package com.view;
 import com.MainApp;
 import com.crud.InvestimentoDAO;
 import com.model.Investimento;
+import com.model.TextFieldMoney;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class CadastrarInvestimentoController {
     private TextField nomeTextField;
 
     @FXML
-    private TextField valorTextField;
+    private TextFieldMoney valorTextField;
 
     @FXML
     private TextArea planoTextArea;
@@ -36,7 +37,7 @@ public class CadastrarInvestimentoController {
     @FXML
     private void investir(){
     	String nome = nomeTextField.getText();
-    	String valor =valorTextField.getText();
+    	String valor =valorTextField.getCleanValue();
     	String plano = planoTextArea.getText();
     	String data = dataDatePicker.getValue().toString();
     	
