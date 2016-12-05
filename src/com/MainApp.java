@@ -97,6 +97,11 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	//Para ser chamado de fora sem ter que passar parâmetros
+	public void atualizarTelaInvestimentos(){
+		showInvestimentosOverview(molduraController.areaDeTrabalhoBorderPane);
+	}
 
 	public void showCadastrarInvestimento(BorderPane areaDeTrabalhoBorderPane) {
 		try {

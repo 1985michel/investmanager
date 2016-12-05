@@ -85,6 +85,8 @@ public class CadastrarVariacaoController {
 		//Colocando a variação no db
 		VariacaoRegistroDAO.registrarVariacao(vr);
 		
+		
+		this.mainApp.atualizarTelaInvestimentos();
 		dialogStage.close();
 
 	}
