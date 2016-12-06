@@ -2,14 +2,14 @@ package com.crud;
 
 import java.sql.ResultSet;
 
-import com.model.Investimento;
+import com.model.TipoDeInvestimento;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class InvestimentoDAO {
+public class TipoDeInvestimentoDAO {
 
-	public static void investir(Investimento i) {
+	public static void criarNovoTipo(TipoDeInvestimento tipo) {
 
 		int id = 0;
 
@@ -18,15 +18,13 @@ public class InvestimentoDAO {
 		try {
 
 			CRUD crud = new CRUD();
-			resultSet = crud
-					.getResultSet("INSERT INTO INVESTIMENTO (nome,valor,data,plano,idtipoinvestimento) VALUES ('"
-							+ i.getNome() + "','" + i.getValor() + "','" + i.getData() + "','" + i.getPlano() + "','"
-							+ i.getTipoInvestimento().getId() + "');CALL IDENTITY();");
+			resultSet = crud.getResultSet("INSERT INTO TIPODEINVESTIMENTO (nome,idCalculadora) VALUES ('"
+					+ tipo.getNome() + "','" + tipo.getCalculadoraDeCustos().getId() + "');CALL IDENTITY();");
 
 			if (resultSet.next()) {
 				id = resultSet.getInt(1);// obtendo o idretornado CALL
 				// IDENTITY();
-				i.setId(id + "");
+				tipo.setId(id + "");
 			}
 
 		} catch (Exception e) {
@@ -41,23 +39,22 @@ public class InvestimentoDAO {
 
 	}
 
-	public static ObservableList<Investimento> getTodosInvestimentos() {
+	public static ObservableList<TipoDeInvestimento> getTodosTiposDeInvestimentos() {
 
 		int id = 0;
-		ObservableList<Investimento> lista = FXCollections.observableArrayList();
+		ObservableList<TipoDeInvestimento> lista = FXCollections.observableArrayList();
 
 		// Gravando o cliente ao banco
 		ResultSet resultSet = null;
 		try {
 
 			CRUD crud = new CRUD();
-			resultSet = crud.getResultSet("SELECT * FROM INVESTIMENTO");
+			resultSet = crud.getResultSet("SELECT * FROM TIPODEINVESTIMENTO");
 
 			while (resultSet.next()) {
 				String idt = resultSet.getInt("id") + "";
-				lista.add(new Investimento(idt, resultSet.getString("nome"), resultSet.getString("valor"),
-						resultSet.getString("data"), resultSet.getString("plano"),
-						resultSet.getString("idtipoinvestimento")));
+				lista.add(
+						new TipoDeInvestimento(idt, resultSet.getString("nome"), resultSet.getString("idCalculadora")));
 			}
 
 		} catch (Exception e) {
@@ -74,22 +71,20 @@ public class InvestimentoDAO {
 
 	}
 
-	public static Investimento getInvestimentoPeloId(String id) {
+	public static TipoDeInvestimento getTipoDeInvestimentoPorId(String idTipoInv) {
 
-		Investimento i = null;
+		TipoDeInvestimento tipo = null;
 
 		// Gravando o cliente ao banco
 		ResultSet resultSet = null;
 		try {
 
 			CRUD crud = new CRUD();
-			resultSet = crud.getResultSet("SELECT * FROM INVESTIMENTO WHERE id= '" + id + "'");
+			resultSet = crud.getResultSet("SELECT * FROM TIPODEINVESTIMENTO WHERE id= '" + idTipoInv + "'");
 
 			while (resultSet.next()) {
 				String idt = resultSet.getInt("id") + "";
-				i = new Investimento(idt, resultSet.getString("nome"), resultSet.getString("valor"),
-						resultSet.getString("data"), resultSet.getString("plano"),
-						resultSet.getString("idtipoinvestimento"));
+				tipo = new TipoDeInvestimento(idt, resultSet.getString("nome"), resultSet.getString("idCalculadora"));
 			}
 
 		} catch (Exception e) {
@@ -102,19 +97,20 @@ public class InvestimentoDAO {
 			}
 		}
 
-		return i;
+		return tipo;
 
 	}
 
-	public static void atualizarInvestimento(Investimento i) {
+	public static void atualizarTipoDeInvestimento(TipoDeInvestimento tipo) {
 
 		ResultSet resultSet = null;
 		try {
 			CRUD crud = new CRUD();
 
-			resultSet = crud.getResultSet("UPDATE INVESTIMENTO SET nome= '" + i.getNome() + "', valor= '" + i.getValor()
-					+ "', data= '" + i.getData() + "', plano= '" + i.getPlano() + "', idtipoinvestimento= '"
-					+ i.getTipoInvestimento().getId() + "' WHERE id='" + i.getId() + "'");
+			resultSet = crud
+					.getResultSet("UPDATE TIPODEINVESTIMENTO SET nome= '" + tipo.getNome() + "', idCalculadora= '"
+							+ tipo.getCalculadoraDeCustos().getId()
+							+ "' WHERE id='" + tipo.getId() + "'");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,12 +124,12 @@ public class InvestimentoDAO {
 
 	}
 
-	public static void deletarInvestimento(Investimento i) {
+	public static void deletarTipoDeInvestimento(TipoDeInvestimento tipo) {
 
 		ResultSet resultSet = null;
 		try {
 			CRUD crud = new CRUD();
-			resultSet = crud.getResultSet("DELETE FROM INVESTIMENTO WHERE id= '" + i.getId() + "'");
+			resultSet = crud.getResultSet("DELETE FROM TIPODEINVESTIMENTO WHERE id= '" + tipo.getId() + "'");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

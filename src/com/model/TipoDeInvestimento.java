@@ -4,62 +4,71 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class TipoDeInvestimento {
-	
+
 	private StringProperty id;
 	private StringProperty nome;
-	private CalculadoraDeCustos calculoDeCustos;
-	
-	public TipoDeInvestimento(){}
-	
-	public TipoDeInvestimento(String nome){
-		this.nome = new SimpleStringProperty(nome);		
+	private CalculadoraDeCustos calculadoraDeCustos;
+
+	/*
+	public TipoDeInvestimento() {
 	}
-	
-	public TipoDeInvestimento(String id,String nome){
+
+	public TipoDeInvestimento(String nome) {
+		this.nome = new SimpleStringProperty(nome);
+	}
+	*/
+
+	public TipoDeInvestimento(String nome, String idCalculadora) {
+		this.nome = new SimpleStringProperty(nome);
+		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora);
+	}
+
+	public TipoDeInvestimento(String id, String nome, String idCalculadora) {
 		this.id = new SimpleStringProperty(id);
 		this.nome = new SimpleStringProperty(nome);
-		this.calculoDeCustos = new CalculadoraDeCustos();
-	}
-	
-	
-
-	public CalculadoraDeCustos getCalculoDeCustos() {
-		return calculoDeCustos;
+		
+		//Para testes
+		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora); 
 	}
 
-	public void setCalculoDeCustos(CalculadoraDeCustos calculoDeCustos) {
-		this.calculoDeCustos = calculoDeCustos;
+	public CalculadoraDeCustos getCalculadoraDeCustos() {
+		return calculadoraDeCustos;
+	}
+
+	public void setCalculoDeCustos(String idCalculadora) {
+		
+		//Para testes
+		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora);
 	}
 
 	public final StringProperty idProperty() {
 		return this.id;
 	}
-	
 
-	public final java.lang.String getId() {
-		return this.idProperty().get();
+	public final String getId() {
+		return this.id.get();
 	}
-	
 
-	public final void setId(final java.lang.String id) {
-		this.idProperty().set(id);
+	public final void setId(String id) {
+		this.id = new SimpleStringProperty(id);
 	}
-	
 
 	public final StringProperty nomeProperty() {
 		return this.nome;
 	}
-	
 
 	public final java.lang.String getNome() {
 		return this.nomeProperty().get();
 	}
-	
 
 	public final void setNome(final java.lang.String nome) {
 		this.nomeProperty().set(nome);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "TipoDeInvestimento [id=" + id + ", nome=" + nome + ", calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
+	}
 	
 	
 

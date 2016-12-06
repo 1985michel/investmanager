@@ -55,7 +55,7 @@ public class CadastrarInvestimentoController {
 		String plano = planoTextArea.getText();
 		String data = dataDatePicker.getValue().toString();
 
-		Investimento i = new Investimento(nome, valor, data, plano);
+		Investimento i = new Investimento(nome, valor, data, plano,"0");
 		InvestimentoDAO.investir(i);
 		this.mainApp.retornarATelaInicial();
 	}

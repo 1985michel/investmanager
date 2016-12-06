@@ -27,5 +27,9 @@ public class MolduraController {
     	this.mainApp.showCadastrarInvestimento(this.areaDeTrabalhoBorderPane);
     }
     
+    public void exibierCadastrarTipoDeInvestimento(){
+    	this.mainApp.showCadastrarTipoDeInvestimentoOverview();
+    }
+    
     
 }

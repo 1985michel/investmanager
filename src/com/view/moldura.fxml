@@ -39,6 +39,7 @@
                   <VBox layoutX="38.0" layoutY="84.0" prefHeight="367.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibirCadastrarInvestimento" text="Cadastrar Investimento" VBox.vgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibierCadastrarTipoDeInvestimento" text="Cadastrar&#10;Tipo De Investimento" textAlignment="CENTER" />
                      </children>
                   </VBox>
                </children>

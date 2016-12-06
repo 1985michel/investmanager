@@ -33,6 +33,11 @@ public class DBFactory {
 				+ "idInvestimento VARCHAR(10)," + "data VARCHAR(10)," + "valor VARCHAR(50)," + ");";
 
 		this.comandosDeCriacao.add(criarTabelaVariacaoRegistro);
+		
+		String criarTabelaTipoDeInvestimento = "CREATE TABLE TIPODEINVESTIMENTO (" + "id INTEGER IDENTITY PRIMARY KEY, "
+				+ "nome VARCHAR(200)," + "idCalculadora VARCHAR(10)"  + ");";
+
+		this.comandosDeCriacao.add(criarTabelaTipoDeInvestimento);
 
 		
 	}
