@@ -67,7 +67,8 @@ public class TipoDeInvestimento {
 
 	@Override
 	public String toString() {
-		return "TipoDeInvestimento [id=" + id + ", nome=" + nome + ", calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
+		//return "TipoDeInvestimento [id=" + id + ", nome=" + nome + ", calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
+		return this.getNome();
 	}
 	
 	

@@ -143,7 +143,7 @@ public class Investimento {
 	@Override
 	public String toString() {
 		return "Investimento [id=" + id + ", nome=" + nome + ", valor=" + valor + ", data=" + data + ", plano=" + plano
-				+ "]";
+				+ ", TiPoDeInvestimento=" + tipoInvestimento.getNome() +"]";
 	}
 
 }

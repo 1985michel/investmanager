@@ -1,17 +1,19 @@
 package com.view;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.MainApp;
 import com.crud.InvestimentoDAO;
-import com.crud.VariacaoRegistroDAO;
+import com.crud.TipoDeInvestimentoDAO;
 import com.model.Investimento;
 import com.model.TextFieldMoney;
-import com.model.VariacaoRegistro;
+import com.model.TipoDeInvestimento;
 import com.util.MascaraFinanceira;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -21,6 +23,8 @@ public class CadastrarInvestimentoController {
 
 	MainApp mainApp;
 
+	TipoDeInvestimento tiSelecionadoNoComboBox;
+
 	// Para ser usado quando de atualização
 
 	// Palco desse dialog
@@ -28,13 +32,15 @@ public class CadastrarInvestimentoController {
 
 	// Variável que monitora o retorno do dialog
 	private boolean okClicked = false;
-	
-	
+
 	@FXML
 	private TextField nomeTextField;
 
 	@FXML
 	private TextFieldMoney valorTextField;
+
+	@FXML
+	private ComboBox<TipoDeInvestimento> tipoDeInvestimentoComboBox;
 
 	@FXML
 	private TextArea planoTextArea;
@@ -48,6 +54,22 @@ public class CadastrarInvestimentoController {
 	@FXML
 	private Button cancelarButton;
 
+	/**
+	 * Initialize - é chamado ao carregar o fxml
+	 */
+	@FXML
+	private void initialize() {
+		List<TipoDeInvestimento> lista = TipoDeInvestimentoDAO.getTodosTiposDeInvestimentos();
+		for (TipoDeInvestimento ti : lista) {
+			tipoDeInvestimentoComboBox.getItems().add(ti);
+		}
+		tipoDeInvestimentoComboBox.setOnAction((event) -> {
+			// System.out.println(mcb.getValue().idMateria);
+			tiSelecionadoNoComboBox = tipoDeInvestimentoComboBox.getValue();
+		});
+
+	}
+
 	@FXML
 	private void investir() {
 		String nome = nomeTextField.getText();
@@ -55,7 +77,7 @@ public class CadastrarInvestimentoController {
 		String plano = planoTextArea.getText();
 		String data = dataDatePicker.getValue().toString();
 
-		Investimento i = new Investimento(nome, valor, data, plano,"0");
+		Investimento i = new Investimento(nome, valor, data, plano, tiSelecionadoNoComboBox.getId());
 		InvestimentoDAO.investir(i);
 		this.mainApp.retornarATelaInicial();
 	}
@@ -87,31 +109,31 @@ public class CadastrarInvestimentoController {
 	public boolean isOkCLicked() {
 		return okClicked;
 	}
-	
+
 	/**
 	 * Chamado quando o usuário clica ok
 	 */
 	@FXML
 	private void handleOk() {
 		okClicked = true;
-		
+
 		String data = dataDatePicker.getValue().toString();
 		String valor = valorTextField.getCleanValue();
 		String nome = nomeTextField.getText();
 		String plano = planoTextArea.getText();
-
 		
-		//Autalizando o objeto investimento na memória
+		
+
+		// Autalizando o objeto investimento na memória
 		MainApp.investimentoSelecionado.setData(data);
 		MainApp.investimentoSelecionado.setValor(valor);
 		MainApp.investimentoSelecionado.setNome(nome);
 		MainApp.investimentoSelecionado.setPlano(plano);
-		
+		MainApp.investimentoSelecionado.setTipoInvestimento(tiSelecionadoNoComboBox);
 
-		//Atualizando o Banco
+		// Atualizando o Banco
 		InvestimentoDAO.atualizarInvestimento(MainApp.investimentoSelecionado);
-		
-		
+
 		this.mainApp.atualizarTelaInvestimentos();
 		dialogStage.close();
 
@@ -130,14 +152,13 @@ public class CadastrarInvestimentoController {
 		this.valorTextField.setText(MascaraFinanceira.show(i.getValor()));
 		this.dataDatePicker.setValue(LocalDate.parse(i.getData()));
 		this.planoTextArea.setText(i.getPlano());
-		
-		//Alterando os botões para funcionarem como atualização
+		this.tipoDeInvestimentoComboBox.setValue(i.getTipoInvestimento());
+
+		// Alterando os botões para funcionarem como atualização
 		cadastrarButton.setText("Atualizar");
 		cadastrarButton.setOnAction(event -> handleOk());
 		cancelarButton.setOnAction(event -> handleCancel());
 
-		
 	}
 
-	
 }
