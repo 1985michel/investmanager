@@ -1,28 +1,30 @@
 package com.testes;
 
+import java.util.List;
+
+import com.crud.InvestidorDAO;
 import com.crud.InvestimentoDAO;
+import com.crud.TipoDeInvestimentoDAO;
+import com.model.Investidor;
 import com.model.Investimento;
+import com.model.TipoDeInvestimento;
 
 public class TesteCriarInvestimento {
 
 	public static void main(String[] args) {
 		
-		/*
-		Investimento inv = new Investimento("Euro", "999.50", "2016-12-04", "Viajar");
-		InvestimentoDAO.investir(inv);
-				
+		Investidor iU2 = InvestidorDAO.getInvestidorPeloId("1");
 		
+		TipoDeInvestimento ti = TipoDeInvestimentoDAO.getTipoDeInvestimentoPorId("0");
 		
-		Investimento inv2 = new Investimento("Poupança BB", "100.2", "2016-12-04", "Reserva de Emergências");
-		InvestimentoDAO.investir(inv2);
+		Investimento inv = new Investimento("Teste", "10", "2016-12-04", "Viajar",ti.getId(),iU2.getId());
+		//InvestimentoDAO.investir(inv);
+			
+		System.out.println(inv);
+		//for (Investimento i : InvestimentoDAO.getTodosInvestimentos()) {
+		//	System.out.println(i);
+		//}
 		
-		Investimento inv3 = new Investimento("Ações", "27.35", "2016-12-04", "Risco");
-		InvestimentoDAO.investir(inv3);
-		
-		for (Investimento i : InvestimentoDAO.getTodosInvestimentos()) {
-			System.out.println(i);
-		}
-		*/
 		
 
 	}

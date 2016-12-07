@@ -18,10 +18,11 @@ public class InvestimentoDAO {
 		try {
 
 			CRUD crud = new CRUD();
-			resultSet = crud
-					.getResultSet("INSERT INTO INVESTIMENTO (nome,valor,data,plano,idtipoinvestimento) VALUES ('"
+			resultSet = crud.getResultSet(
+					"INSERT INTO INVESTIMENTO (nome,valor,data,plano,idtipoinvestimento,idInvestidor) VALUES ('"
 							+ i.getNome() + "','" + i.getValor() + "','" + i.getData() + "','" + i.getPlano() + "','"
-							+ i.getTipoInvestimento().getId() + "');CALL IDENTITY();");
+							+ i.getTipoInvestimento().getId() + "','" + i.getInvestidor().getId()
+							+ "');CALL IDENTITY();");
 
 			if (resultSet.next()) {
 				id = resultSet.getInt(1);// obtendo o idretornado CALL
@@ -57,7 +58,40 @@ public class InvestimentoDAO {
 				String idt = resultSet.getInt("id") + "";
 				lista.add(new Investimento(idt, resultSet.getString("nome"), resultSet.getString("valor"),
 						resultSet.getString("data"), resultSet.getString("plano"),
-						resultSet.getString("idtipoinvestimento")));
+						resultSet.getString("idtipoinvestimento"), resultSet.getString("idInvestidor")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				resultSet.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return lista;
+
+	}
+
+	public static ObservableList<Investimento> getInvestimentosPorInvestidor(String idInvestidor) {
+
+		int id = 0;
+		ObservableList<Investimento> lista = FXCollections.observableArrayList();
+
+		// Gravando o cliente ao banco
+		ResultSet resultSet = null;
+		try {
+
+			CRUD crud = new CRUD();
+			resultSet = crud.getResultSet("SELECT * FROM INVESTIMENTO WHERE IDINVESTIDOR = '" + idInvestidor + "'");
+
+			while (resultSet.next()) {
+				String idt = resultSet.getInt("id") + "";
+				lista.add(new Investimento(idt, resultSet.getString("nome"), resultSet.getString("valor"),
+						resultSet.getString("data"), resultSet.getString("plano"),
+						resultSet.getString("idtipoinvestimento"), resultSet.getString("idInvestidor")));
 			}
 
 		} catch (Exception e) {
@@ -89,7 +123,7 @@ public class InvestimentoDAO {
 				String idt = resultSet.getInt("id") + "";
 				i = new Investimento(idt, resultSet.getString("nome"), resultSet.getString("valor"),
 						resultSet.getString("data"), resultSet.getString("plano"),
-						resultSet.getString("idtipoinvestimento"));
+						resultSet.getString("idtipoinvestimento"), resultSet.getString("idInvestidor"));
 			}
 
 		} catch (Exception e) {
@@ -114,7 +148,9 @@ public class InvestimentoDAO {
 
 			resultSet = crud.getResultSet("UPDATE INVESTIMENTO SET nome= '" + i.getNome() + "', valor= '" + i.getValor()
 					+ "', data= '" + i.getData() + "', plano= '" + i.getPlano() + "', idtipoinvestimento= '"
-					+ i.getTipoInvestimento().getId() + "' WHERE id='" + i.getId() + "'");
+					+ i.getTipoInvestimento().getId() 
+					+ "', idinvestidor= '"+ i.getInvestidor().getId() +
+					"' WHERE id='" + i.getId() + "'");
 
 		} catch (Exception e) {
 			e.printStackTrace();

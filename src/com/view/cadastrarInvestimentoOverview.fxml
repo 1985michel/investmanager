@@ -28,8 +28,8 @@
             <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
           <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
-          <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="117.0" minHeight="55.0" prefHeight="95.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="133.0" prefHeight="155.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -48,6 +48,7 @@
                </children>
             </HBox>
             <ComboBox fx:id="tipoDeInvestimentoComboBox" prefHeight="25.0" prefWidth="204.0" promptText="Tipo de Investimento" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <ComboBox fx:id="investidorComboBox" prefHeight="25.0" prefWidth="204.0" promptText="Investidor" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
          </children>
       </GridPane>
    </children>

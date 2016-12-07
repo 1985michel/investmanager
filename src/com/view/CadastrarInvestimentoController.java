@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.MainApp;
+import com.crud.InvestidorDAO;
 import com.crud.InvestimentoDAO;
 import com.crud.TipoDeInvestimentoDAO;
+import com.model.Investidor;
 import com.model.Investimento;
 import com.model.TextFieldMoney;
 import com.model.TipoDeInvestimento;
@@ -24,6 +26,8 @@ public class CadastrarInvestimentoController {
 	MainApp mainApp;
 
 	TipoDeInvestimento tiSelecionadoNoComboBox;
+	
+	Investidor investidorSelecionado;
 
 	// Para ser usado quando de atualização
 
@@ -40,7 +44,10 @@ public class CadastrarInvestimentoController {
 	private TextFieldMoney valorTextField;
 
 	@FXML
-	private ComboBox<TipoDeInvestimento> tipoDeInvestimentoComboBox;
+	private ComboBox<TipoDeInvestimento> tipoDeInvestimentoComboBox;	
+	
+	@FXML
+	private ComboBox<Investidor> investidorComboBox;
 
 	@FXML
 	private TextArea planoTextArea;
@@ -59,6 +66,8 @@ public class CadastrarInvestimentoController {
 	 */
 	@FXML
 	private void initialize() {
+		
+		//Povoando ComboBox
 		List<TipoDeInvestimento> lista = TipoDeInvestimentoDAO.getTodosTiposDeInvestimentos();
 		for (TipoDeInvestimento ti : lista) {
 			tipoDeInvestimentoComboBox.getItems().add(ti);
@@ -66,6 +75,15 @@ public class CadastrarInvestimentoController {
 		tipoDeInvestimentoComboBox.setOnAction((event) -> {
 			// System.out.println(mcb.getValue().idMateria);
 			tiSelecionadoNoComboBox = tipoDeInvestimentoComboBox.getValue();
+		});
+		
+		List<Investidor> listaInvestidor = InvestidorDAO.getTodosInvestidores();
+		for (Investidor iU : listaInvestidor) {
+			investidorComboBox.getItems().add(iU);
+		}
+		investidorComboBox.setOnAction((event) -> {
+			// System.out.println(mcb.getValue().idMateria);
+			investidorSelecionado = investidorComboBox.getValue();
 		});
 
 	}
@@ -76,8 +94,9 @@ public class CadastrarInvestimentoController {
 		String valor = valorTextField.getCleanValue();
 		String plano = planoTextArea.getText();
 		String data = dataDatePicker.getValue().toString();
+		
 
-		Investimento i = new Investimento(nome, valor, data, plano, tiSelecionadoNoComboBox.getId());
+		Investimento i = new Investimento(nome, valor, data, plano, tiSelecionadoNoComboBox, investidorSelecionado);
 		InvestimentoDAO.investir(i);
 		this.mainApp.retornarATelaInicial();
 	}
@@ -123,13 +142,15 @@ public class CadastrarInvestimentoController {
 		String plano = planoTextArea.getText();
 		
 		
+		
 
 		// Autalizando o objeto investimento na memória
 		MainApp.investimentoSelecionado.setData(data);
 		MainApp.investimentoSelecionado.setValor(valor);
 		MainApp.investimentoSelecionado.setNome(nome);
 		MainApp.investimentoSelecionado.setPlano(plano);
-		MainApp.investimentoSelecionado.setTipoInvestimento(tiSelecionadoNoComboBox);
+		MainApp.investimentoSelecionado.setTipoInvestimento(tipoDeInvestimentoComboBox.getValue());
+		MainApp.investimentoSelecionado.setInvestidor(investidorComboBox.getValue());
 
 		// Atualizando o Banco
 		InvestimentoDAO.atualizarInvestimento(MainApp.investimentoSelecionado);
@@ -153,6 +174,8 @@ public class CadastrarInvestimentoController {
 		this.dataDatePicker.setValue(LocalDate.parse(i.getData()));
 		this.planoTextArea.setText(i.getPlano());
 		this.tipoDeInvestimentoComboBox.setValue(i.getTipoInvestimento());
+		
+		this.investidorComboBox.setValue(i.getInvestidor());
 
 		// Alterando os botões para funcionarem como atualização
 		cadastrarButton.setText("Atualizar");

@@ -8,19 +8,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.exceptions.CRUDException;
-import com.model.Usuario;
+import com.model.Investidor;
 
 public class CRUD {
 
-	static Usuario user;
+	static Investidor user;
 	public String address;
 	public static String diretorioDb = "D:/Program Files/investmanager/hsqldb-2.3.3/hsqldb/db/";
 
 	public CRUD(){
-		CRUD.user = new Usuario("michel", "livre");
+		CRUD.user = new Investidor("michel", "livre");
 		address = "jdbc:hsqldb:file:"+diretorioDb + user.getNome();
 	}
-	public CRUD(Usuario user) {
+	public CRUD(Investidor user) {
 		CRUD.user = user;				
 		address = "jdbc:hsqldb:file:"+diretorioDb + user.getNome();
 		//address = "jdbc:hsqldb:file:D:/Program Files/wedoffSecurity/hsqldb-2.3.3/hsqldb/db/" + user.getNome();		

@@ -1,6 +1,7 @@
 package com.model;
 
 import com.crud.TipoDeInvestimentoDAO;
+import com.crud.InvestidorDAO;
 import com.util.CalcularVariacao;
 import com.util.MascaraFinanceira;
 
@@ -16,6 +17,7 @@ public class Investimento {
 	private StringProperty plano;
 	private Variacao variacao;
 	private TipoDeInvestimento tipoInvestimento;
+	private Investidor investidor;
 	/*
 	 * O tipo não tem um investimento, é o investimento que tem um tipo.
 	 * No banco vou armazenar somente o ID do tipo de investimento
@@ -33,7 +35,7 @@ public class Investimento {
 	public Investimento() {
 	}
 
-	public Investimento(String nome, String valor, String data, String plano, String idTipoInv) {
+	public Investimento(String nome, String valor, String data, String plano, String idTipoInv, String idInvestidor) {
 		this.nome = new SimpleStringProperty(nome);
 		this.valor = new SimpleStringProperty(valor);
 		this.data = new SimpleStringProperty(data);
@@ -45,10 +47,49 @@ public class Investimento {
 
 		// Definindo o tipo de Investimento
 		this.tipoInvestimento = TipoDeInvestimentoDAO.getTipoDeInvestimentoPorId(idTipoInv);
+		
+		//Definindo o dono
+		this.investidor = InvestidorDAO.getInvestidorPeloId(idInvestidor);
 
 	}
+	
+	public Investimento(String id, String nome, String valor, String data, String plano,TipoDeInvestimento tipo, Investidor iU) {
+		this.id = new SimpleStringProperty(id);
+		this.nome = new SimpleStringProperty(nome);
+		this.valor = new SimpleStringProperty(valor);
+		this.data = new SimpleStringProperty(data);
+		this.plano = new SimpleStringProperty(plano);
 
-	public Investimento(String id, String nome, String valor, String data, String plano, String idTipoInv) {
+		// Definindo a variação
+		this.variacao = new Variacao(this.getData(), this.getValor());
+		this.variacao.setVariacao("0");
+
+		// Definindo o tipo de Investimento
+		this.tipoInvestimento = tipo;
+		
+		//Definindo o dono
+		this.investidor = iU;
+	}
+	
+	public Investimento(String nome, String valor, String data, String plano,TipoDeInvestimento tipo, Investidor iU) {
+		
+		this.nome = new SimpleStringProperty(nome);
+		this.valor = new SimpleStringProperty(valor);
+		this.data = new SimpleStringProperty(data);
+		this.plano = new SimpleStringProperty(plano);
+
+		// Definindo a variação
+		this.variacao = new Variacao(this.getData(), this.getValor());
+		this.variacao.setVariacao("0");
+
+		// Definindo o tipo de Investimento
+		this.tipoInvestimento = tipo;
+		
+		//Definindo o dono
+		this.investidor = iU;
+	}
+
+	public Investimento(String id, String nome, String valor, String data, String plano, String idTipoInv, String idInvestidor) {
 		this.id = new SimpleStringProperty(id);
 		this.nome = new SimpleStringProperty(nome);
 		this.valor = new SimpleStringProperty(valor);
@@ -61,6 +102,9 @@ public class Investimento {
 
 		// Definindo o tipo de Investimento
 		this.tipoInvestimento = TipoDeInvestimentoDAO.getTipoDeInvestimentoPorId(idTipoInv);
+		
+		//Definindo o dono
+		this.investidor = InvestidorDAO.getInvestidorPeloId(idInvestidor);
 	}
 
 	public final StringProperty nomeProperty() {
@@ -143,7 +187,17 @@ public class Investimento {
 	@Override
 	public String toString() {
 		return "Investimento [id=" + id + ", nome=" + nome + ", valor=" + valor + ", data=" + data + ", plano=" + plano
-				+ ", TiPoDeInvestimento=" + tipoInvestimento.getNome() +"]";
+				+ ", TiPoDeInvestimento=" + tipoInvestimento.getNome() + ", Investidor=" + investidor.getNome() +"]";
 	}
+
+	public Investidor getInvestidor() {
+		return investidor;
+	}
+
+	public void setInvestidor(Investidor investidor) {
+		this.investidor = investidor;
+	}
+	
+	
 
 }
