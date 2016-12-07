@@ -7,7 +7,7 @@ public class TesteCriarInvestimento {
 
 	public static void main(String[] args) {
 		
-		
+		/*
 		Investimento inv = new Investimento("Euro", "999.50", "2016-12-04", "Viajar");
 		InvestimentoDAO.investir(inv);
 				
@@ -22,7 +22,7 @@ public class TesteCriarInvestimento {
 		for (Investimento i : InvestimentoDAO.getTodosInvestimentos()) {
 			System.out.println(i);
 		}
-		
+		*/
 		
 
 	}
