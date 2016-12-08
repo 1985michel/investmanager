@@ -109,8 +109,7 @@ public class TipoDeInvestimentoDAO {
 
 			resultSet = crud
 					.getResultSet("UPDATE TIPODEINVESTIMENTO SET nome= '" + tipo.getNome() + "', idCalculadora= '"
-							+ tipo.getCalculadoraDeCustos().getId()
-							+ "' WHERE id='" + tipo.getId() + "'");
+							+ tipo.getCalculadoraDeCustos().getId() + "' WHERE id='" + tipo.getId() + "'");
 
 		} catch (Exception e) {
 			e.printStackTrace();

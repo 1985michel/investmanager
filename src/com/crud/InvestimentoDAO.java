@@ -148,9 +148,8 @@ public class InvestimentoDAO {
 
 			resultSet = crud.getResultSet("UPDATE INVESTIMENTO SET nome= '" + i.getNome() + "', valor= '" + i.getValor()
 					+ "', data= '" + i.getData() + "', plano= '" + i.getPlano() + "', idtipoinvestimento= '"
-					+ i.getTipoInvestimento().getId() 
-					+ "', idinvestidor= '"+ i.getInvestidor().getId() +
-					"' WHERE id='" + i.getId() + "'");
+					+ i.getTipoInvestimento().getId() + "', idinvestidor= '" + i.getInvestidor().getId()
+					+ "' WHERE id='" + i.getId() + "'");
 
 		} catch (Exception e) {
 			e.printStackTrace();

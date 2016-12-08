@@ -26,7 +26,7 @@ public class CadastrarInvestimentoController {
 	MainApp mainApp;
 
 	TipoDeInvestimento tiSelecionadoNoComboBox;
-	
+
 	Investidor investidorSelecionado;
 
 	// Para ser usado quando de atualização
@@ -44,8 +44,8 @@ public class CadastrarInvestimentoController {
 	private TextFieldMoney valorTextField;
 
 	@FXML
-	private ComboBox<TipoDeInvestimento> tipoDeInvestimentoComboBox;	
-	
+	private ComboBox<TipoDeInvestimento> tipoDeInvestimentoComboBox;
+
 	@FXML
 	private ComboBox<Investidor> investidorComboBox;
 
@@ -66,8 +66,8 @@ public class CadastrarInvestimentoController {
 	 */
 	@FXML
 	private void initialize() {
-		
-		//Povoando ComboBox
+
+		// Povoando ComboBox
 		List<TipoDeInvestimento> lista = TipoDeInvestimentoDAO.getTodosTiposDeInvestimentos();
 		for (TipoDeInvestimento ti : lista) {
 			tipoDeInvestimentoComboBox.getItems().add(ti);
@@ -76,7 +76,7 @@ public class CadastrarInvestimentoController {
 			// System.out.println(mcb.getValue().idMateria);
 			tiSelecionadoNoComboBox = tipoDeInvestimentoComboBox.getValue();
 		});
-		
+
 		List<Investidor> listaInvestidor = InvestidorDAO.getTodosInvestidores();
 		for (Investidor iU : listaInvestidor) {
 			investidorComboBox.getItems().add(iU);
@@ -94,7 +94,6 @@ public class CadastrarInvestimentoController {
 		String valor = valorTextField.getCleanValue();
 		String plano = planoTextArea.getText();
 		String data = dataDatePicker.getValue().toString();
-		
 
 		Investimento i = new Investimento(nome, valor, data, plano, tiSelecionadoNoComboBox, investidorSelecionado);
 		InvestimentoDAO.investir(i);
@@ -140,9 +139,6 @@ public class CadastrarInvestimentoController {
 		String valor = valorTextField.getCleanValue();
 		String nome = nomeTextField.getText();
 		String plano = planoTextArea.getText();
-		
-		
-		
 
 		// Autalizando o objeto investimento na memória
 		MainApp.investimentoSelecionado.setData(data);
@@ -174,7 +170,7 @@ public class CadastrarInvestimentoController {
 		this.dataDatePicker.setValue(LocalDate.parse(i.getData()));
 		this.planoTextArea.setText(i.getPlano());
 		this.tipoDeInvestimentoComboBox.setValue(i.getTipoInvestimento());
-		
+
 		this.investidorComboBox.setValue(i.getInvestidor());
 
 		// Alterando os botões para funcionarem como atualização

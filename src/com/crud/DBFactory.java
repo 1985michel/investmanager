@@ -22,7 +22,7 @@ public class DBFactory {
 
 		String criarTabelaInvestimento = "CREATE TABLE INVESTIMENTO (" + "id INTEGER IDENTITY PRIMARY KEY, "
 				+ "nome VARCHAR(200)," + "valor VARCHAR(50)," + "data VARCHAR(200)," + "plano VARCHAR(5000),"
-				+ "idTipoDeInvestimento VARCHAR(10)," +  "idInvestidor VARCHAR(10)," +");";
+				+ "idTipoDeInvestimento VARCHAR(10)," + "idInvestidor VARCHAR(10)," + ");";
 
 		this.comandosDeCriacao.add(criarTabelaInvestimento);
 
@@ -35,7 +35,7 @@ public class DBFactory {
 				+ "nome VARCHAR(200)," + "idCalculadora VARCHAR(10)" + ");";
 
 		this.comandosDeCriacao.add(criarTabelaTipoDeInvestimento);
-		
+
 		String criarTabelaInvesidor = "CREATE TABLE INVESTIDOR (" + "id INTEGER IDENTITY PRIMARY KEY, "
 				+ "nome VARCHAR(200)," + "senha VARCHAR(20)" + ");";
 

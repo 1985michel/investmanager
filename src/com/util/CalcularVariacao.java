@@ -42,7 +42,7 @@ public class CalcularVariacao {
 
 		double lucro = (100 * f) / i;
 		// NÃO É DINEHRIO É PORCENTAGEM
-		lucro = lucro-100;
+		lucro = lucro - 100;
 		return String.format("%.2f", lucro);
 
 	}

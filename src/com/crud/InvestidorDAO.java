@@ -3,9 +3,6 @@ package com.crud;
 import java.sql.ResultSet;
 
 import com.model.Investidor;
-import com.model.Investimento;
-import com.model.VariacaoRegistro;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -91,7 +88,7 @@ public class InvestidorDAO {
 		}
 
 	}
-	
+
 	public static void deletarInvestidor(Investidor u) {
 
 		ResultSet resultSet = null;
@@ -108,7 +105,7 @@ public class InvestidorDAO {
 			}
 		}
 	}
-	
+
 	public static Investidor getInvestidorPeloId(String id) {
 
 		Investidor i = null;

@@ -10,13 +10,11 @@ public class TipoDeInvestimento {
 	private CalculadoraDeCustos calculadoraDeCustos;
 
 	/*
-	public TipoDeInvestimento() {
-	}
-
-	public TipoDeInvestimento(String nome) {
-		this.nome = new SimpleStringProperty(nome);
-	}
-	*/
+	 * public TipoDeInvestimento() { }
+	 * 
+	 * public TipoDeInvestimento(String nome) { this.nome = new
+	 * SimpleStringProperty(nome); }
+	 */
 
 	public TipoDeInvestimento(String nome, String idCalculadora) {
 		this.nome = new SimpleStringProperty(nome);
@@ -26,9 +24,9 @@ public class TipoDeInvestimento {
 	public TipoDeInvestimento(String id, String nome, String idCalculadora) {
 		this.id = new SimpleStringProperty(id);
 		this.nome = new SimpleStringProperty(nome);
-		
-		//Para testes
-		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora); 
+
+		// Para testes
+		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora);
 	}
 
 	public CalculadoraDeCustos getCalculadoraDeCustos() {
@@ -36,8 +34,8 @@ public class TipoDeInvestimento {
 	}
 
 	public void setCalculoDeCustos(String idCalculadora) {
-		
-		//Para testes
+
+		// Para testes
 		this.calculadoraDeCustos = new CalculadoraDeCustos(idCalculadora);
 	}
 
@@ -67,10 +65,9 @@ public class TipoDeInvestimento {
 
 	@Override
 	public String toString() {
-		//return "TipoDeInvestimento [id=" + id + ", nome=" + nome + ", calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
+		// return "TipoDeInvestimento [id=" + id + ", nome=" + nome + ",
+		// calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
 		return this.getNome();
 	}
-	
-	
 
 }

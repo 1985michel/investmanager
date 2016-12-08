@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 
 public class InvestimentosController {
 
@@ -30,7 +31,7 @@ public class InvestimentosController {
 	Investidor investidorSelecionado;
 	ObservableList<Investimento> listaDeInvestimentosPorInvestidor = FXCollections.observableArrayList();
 	Investidor investidorGeral;
-	
+
 	// Observable list que conterá todos os investimentos
 	public ObservableList<Investimento> list = FXCollections.observableArrayList();
 
@@ -82,7 +83,8 @@ public class InvestimentosController {
 	@FXML
 	private Button excluirInvestimentoButton;
 
-
+	@FXML
+	private ImageView cadVarImageViewButton;
 
 	/**
 	 * Ligando ao main

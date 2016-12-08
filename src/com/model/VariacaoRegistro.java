@@ -16,7 +16,8 @@ public class VariacaoRegistro extends Variacao {
 		this.idInvestimento = new SimpleStringProperty(idInvestimento);
 		this.data = new SimpleStringProperty(data);
 		this.valor = new SimpleStringProperty(valor);
-		//this.variacao = new SimpleStringProperty(CalcularVariacao.calc(this,i));
+		// this.variacao = new
+		// SimpleStringProperty(CalcularVariacao.calc(this,i));
 	}
 
 	public VariacaoRegistro(Investimento i, String data, String valor) {
@@ -24,18 +25,16 @@ public class VariacaoRegistro extends Variacao {
 		this.idInvestimento = new SimpleStringProperty(i.getId());
 		this.data = new SimpleStringProperty(data);
 		this.valor = new SimpleStringProperty(valor);
-		this.variacao = new SimpleStringProperty(CalcularVariacao.calc(this,i));
+		this.variacao = new SimpleStringProperty(CalcularVariacao.calc(this, i));
 	}
-	
+
 	public final StringProperty idProperty() {
 		return this.id;
 	}
-	
 
 	public final java.lang.String getId() {
 		return this.idProperty().get();
 	}
-	
 
 	public final void setId(final java.lang.String id) {
 		this.id = new SimpleStringProperty(id);
@@ -59,5 +58,4 @@ public class VariacaoRegistro extends Variacao {
 				+ valor + ", variacao=" + variacao + "]";
 	}
 
-	
 }

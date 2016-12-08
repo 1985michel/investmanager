@@ -1,20 +1,15 @@
 package com.view;
 
-import java.time.LocalDate;
-
 import com.MainApp;
 import com.crud.InvestidorDAO;
-import com.crud.VariacaoRegistroDAO;
 import com.model.Investidor;
-import com.model.VariacaoRegistro;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CadastrarInvestidorController {
-	
+
 	MainApp mainApp;
 
 	// Palco desse dialog
@@ -23,31 +18,32 @@ public class CadastrarInvestidorController {
 	// Variável que monitora o retorno do dialog
 	private boolean okClicked = false;
 
-    @FXML
-    private TextField nomeTextField;
+	@FXML
+	private TextField nomeTextField;
 
-    @FXML
-    private TextField senhaTextField;
+	@FXML
+	private TextField senhaTextField;
 
-    @FXML
-    private Button cadastrarButton;
+	@FXML
+	private Button cadastrarButton;
 
-    @FXML
-    private Button cancelarButton;
-    
-    /**
+	@FXML
+	private Button cancelarButton;
+
+	/**
 	 * Ligando ao main
 	 */
 	public void setMainApp(MainApp main) {
 		this.mainApp = main;
 	}
-	
+
 	/**
 	 * Inicializa a classe controller. Método chamado ao carregar o fxml
 	 */
 	@FXML
-	private void initialize() {}
-		
+	private void initialize() {
+	}
+
 	/**
 	 * Define o palco deste dialog. Usado para fecha-lo, por exemplo
 	 * 
@@ -56,8 +52,6 @@ public class CadastrarInvestidorController {
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
-
-
 
 	/**
 	 * Retorna true se o ok for clicado
@@ -76,13 +70,12 @@ public class CadastrarInvestidorController {
 
 		okClicked = true;
 
-		//Criando o investidor
+		// Criando o investidor
 		Investidor iU = new Investidor(nome, senha);
 
-		//Colocando o investidor no db
+		// Colocando o investidor no db
 		InvestidorDAO.registrarInvestidor(iU);
-		
-		
+
 		this.mainApp.atualizarTelaInvestimentos();
 		dialogStage.close();
 

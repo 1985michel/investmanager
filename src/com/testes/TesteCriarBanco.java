@@ -7,8 +7,8 @@ import com.crud.DBFactory;
 import com.exceptions.CRUDException;
 
 public class TesteCriarBanco {
-	
-	public static void main(String...args){
+
+	public static void main(String... args) {
 		DBFactory dbf = new DBFactory();
 		try {
 			dbf.criarBancos(new CRUD());

@@ -176,7 +176,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void showCadastrarInvestidorOverview() {
 		try {
 
@@ -273,7 +273,7 @@ public class MainApp extends Application {
 
 		}
 	}
-	
+
 	public void showCadastrarTipoDeInvestimentoOverview() {
 		try {
 

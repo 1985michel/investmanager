@@ -3,7 +3,6 @@ package com.crud;
 import java.sql.ResultSet;
 import java.util.List;
 
-import com.model.Investimento;
 import com.model.VariacaoRegistro;
 
 import javafx.collections.FXCollections;
@@ -19,9 +18,8 @@ public class VariacaoRegistroDAO {
 		try {
 
 			CRUD crud = new CRUD();
-			resultSet = crud.getResultSet(
-					"INSERT INTO VARIACAOREGISTRO (idinvestimento,data,valor) VALUES ('" + v.getIdInvestimento() + "','"
-							+ v.getData() + "','" + v.getValor() + "');CALL IDENTITY();");
+			resultSet = crud.getResultSet("INSERT INTO VARIACAOREGISTRO (idinvestimento,data,valor) VALUES ('"
+					+ v.getIdInvestimento() + "','" + v.getData() + "','" + v.getValor() + "');CALL IDENTITY();");
 
 			if (resultSet.next()) {
 				id = resultSet.getInt(1);// obtendo o idretornado CALL
@@ -142,20 +140,16 @@ public class VariacaoRegistroDAO {
 			}
 		}
 	}
-	
+
 	public static VariacaoRegistro getUltimaVariacaoPorRegistroPorInvestimento(String idI) {
 
 		try {
 			List<VariacaoRegistro> listVR = VariacaoRegistroDAO.getVariacoesRegistroPorInvestimento(idI);
-			return listVR.get(listVR.size()-1);
+			return listVR.get(listVR.size() - 1);
 		} catch (Exception e) {
 			return null;
 		}
-		
 
 	}
-
-	
-	
 
 }

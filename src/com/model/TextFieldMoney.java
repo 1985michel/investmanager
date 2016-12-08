@@ -32,12 +32,11 @@ public class TextFieldMoney extends TextField {
 		}
 		if (text.equals("")) {
 			super.replaceText(start, end, text);
-		} else{
+		} else {
 
-			
 			text = text.replaceAll("[^0-9]", "");
 			valor += text;
-			
+
 			super.replaceText(start, end, text);
 			if (!valor.equalsIgnoreCase(""))
 				setText(formata(valor));
@@ -59,17 +58,17 @@ public class TextFieldMoney extends TextField {
 			super.replaceSelection(text);
 		}
 	}
-	
+
 	/*
-	 *Return the number without money mask
+	 * Return the number without money mask
 	 **/
-	
-	public String getCleanValue(){
+
+	public String getCleanValue() {
 		String cleanString = getText().replaceAll("[^0-9]", "");
 		Double cleanNumber = new Double(cleanString);
-		return String.valueOf(cleanNumber/100);
+		return String.valueOf(cleanNumber / 100);
 	}
-	
+
 	private String formata(Double valor) {
 		Locale locale = new Locale("pt", "BR");
 		NumberFormat nf = NumberFormat.getInstance(locale);
@@ -81,7 +80,7 @@ public class TextFieldMoney extends TextField {
 
 	public String formata(String valor) {
 		double v = new Double(valor);
-		return formata(v/100);
+		return formata(v / 100);
 	}
 
 }

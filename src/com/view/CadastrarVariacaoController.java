@@ -6,12 +6,9 @@ import com.MainApp;
 import com.crud.VariacaoRegistroDAO;
 import com.model.TextFieldMoney;
 import com.model.VariacaoRegistro;
-import com.util.EstruturaData;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CadastrarVariacaoController {
@@ -42,15 +39,16 @@ public class CadastrarVariacaoController {
 	public void setMainApp(MainApp main) {
 		this.mainApp = main;
 	}
-	
+
 	/**
 	 * Inicializa a classe controller. Método chamado ao carregar o fxml
 	 */
 	@FXML
 	private void initialize() {
-		//setando a data de hoje no local date
+		// setando a data de hoje no local date
 		dataDatePicker.setValue(LocalDate.now());
 	}
+
 	/**
 	 * Define o palco deste dialog. Usado para fecha-lo, por exemplo
 	 * 
@@ -59,8 +57,6 @@ public class CadastrarVariacaoController {
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
-
-
 
 	/**
 	 * Retorna true se o ok for clicado
@@ -79,13 +75,12 @@ public class CadastrarVariacaoController {
 
 		okClicked = true;
 
-		//Criando a variação
+		// Criando a variação
 		VariacaoRegistro vr = new VariacaoRegistro(MainApp.investimentoSelecionado, data, valor);
 
-		//Colocando a variação no db
+		// Colocando a variação no db
 		VariacaoRegistroDAO.registrarVariacao(vr);
-		
-		
+
 		this.mainApp.atualizarTelaInvestimentos();
 		dialogStage.close();
 
