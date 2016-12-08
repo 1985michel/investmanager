@@ -1,8 +1,12 @@
 package com.view;
 
+import java.util.List;
+
 import com.MainApp;
+import com.crud.InvestidorDAO;
 import com.crud.InvestimentoDAO;
 import com.crud.VariacaoRegistroDAO;
+import com.model.Investidor;
 import com.model.Investimento;
 import com.model.Variacao;
 import com.model.VariacaoRegistro;
@@ -14,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +26,16 @@ import javafx.scene.control.TableView;
 public class InvestimentosController {
 
 	MainApp mainApp;
+
+	Investidor investidorSelecionado;
+	ObservableList<Investimento> listaDeInvestimentosPorInvestidor = FXCollections.observableArrayList();
+	Investidor investidorGeral;
+	
+	// Observable list que conterá todos os investimentos
+	public ObservableList<Investimento> list = FXCollections.observableArrayList();
+
+	@FXML
+	private ComboBox<Investidor> selecionarInvestidorComboBox;
 
 	@FXML
 	private TableView<Investimento> todosInvestimentosTableView;
@@ -67,8 +82,7 @@ public class InvestimentosController {
 	@FXML
 	private Button excluirInvestimentoButton;
 
-	// Observable list que conterá todos os investimentos
-	public ObservableList<Investimento> list = FXCollections.observableArrayList();
+
 
 	/**
 	 * Ligando ao main
@@ -80,7 +94,7 @@ public class InvestimentosController {
 		this.list = InvestimentoDAO.getTodosInvestimentos();
 
 		// Adiciona os dados da observable list à tabela
-		todosInvestimentosTableView.setItems(list);
+		exibirTodosInvestimentosNaTabela();
 
 		// Passando a lista para o main
 		MainApp.listaInvestimentos = list;
@@ -89,13 +103,28 @@ public class InvestimentosController {
 		calcularVaricoes();
 
 		// Apresentando o total investido
-		showBalanco();
+		showBalanco(list);
 
+	}
+
+	private void exibirTodosInvestimentosNaTabela() {
+		todosInvestimentosTableView.setItems(list);
 	}
 
 	private void calcularVaricoes() {
 
-		for (Investimento i : list) {
+		if (investidorSelecionado.getId().equals("-1")) {
+			calculoVariacoes(list);
+			showBalanco(list);
+		} else {
+			calculoVariacoes(listaDeInvestimentosPorInvestidor);
+			showBalanco(listaDeInvestimentosPorInvestidor);
+		}
+
+	}
+
+	private void calculoVariacoes(ObservableList<Investimento> lista) {
+		for (Investimento i : lista) {
 			VariacaoRegistro vr = VariacaoRegistroDAO.getUltimaVariacaoPorRegistroPorInvestimento(i.getId());
 			if (vr != null) {
 				Variacao v = new Variacao(vr.getData(), vr.getValor());
@@ -103,7 +132,6 @@ public class InvestimentosController {
 			}
 
 		}
-
 	}
 
 	/**
@@ -111,6 +139,10 @@ public class InvestimentosController {
 	 */
 	@FXML
 	private void initialize() {
+
+		// setando o investidor geral
+		investidorGeral = new Investidor("-1", "Todos", "0");
+		investidorSelecionado = investidorGeral;
 
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		nomeTableColumn.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
@@ -139,6 +171,19 @@ public class InvestimentosController {
 		lucroTableColumn.setStyle("-fx-alignment: CENTER;");
 		variacaoTableColumn.setStyle("-fx-alignment: CENTER;");
 
+		List<Investidor> listaInvestidor = InvestidorDAO.getTodosInvestidores();
+		listaInvestidor.add(investidorGeral);
+		for (Investidor iU : listaInvestidor) {
+			selecionarInvestidorComboBox.getItems().add(iU);
+		}
+
+		selecionarInvestidorComboBox.setOnAction((event) -> {
+			// System.out.println(mcb.getValue().idMateria);
+			investidorSelecionado = selecionarInvestidorComboBox.getValue();
+			filtrandoInvestimentosPorInvestidor();
+			calcularVaricoes();
+		});
+
 		/*
 		 * // Detecta o duplo click do mouse e apresenta o investimento para
 		 * edição // Caso ok, o investimento é carregado no formulário
@@ -166,11 +211,11 @@ public class InvestimentosController {
 
 	}
 
-	private void showBalanco() {
+	private void showBalanco(ObservableList<Investimento> lista) {
 		double totalInvestido = 0.0;
 		double totalAtual = 0.0;
 
-		for (Investimento i : list) {
+		for (Investimento i : lista) {
 			totalInvestido += new Double(i.getValor());
 			totalAtual += new Double(i.getVariacao().getValor());
 		}
@@ -204,10 +249,28 @@ public class InvestimentosController {
 	public void atualizarInvestimento() {
 		this.mainApp.showAtualizarInvestimentoOverview();
 	}
-	
+
 	@FXML
-	public void excluirInvestimento(){
+	public void excluirInvestimento() {
 		this.mainApp.excluirInvestimento();
+	}
+
+	private void filtrandoInvestimentosPorInvestidor() {
+		// Primeiro exibindo todos
+		if (investidorSelecionado.getId().equals("-1")) {
+			exibirTodosInvestimentosNaTabela();
+			return;
+		}
+
+		// Agora Filtrando por investidor
+
+		listaDeInvestimentosPorInvestidor.clear();
+		for (Investimento i : list) {
+			if (i.getInvestidor().equals(investidorSelecionado))
+				listaDeInvestimentosPorInvestidor.add(i);
+		}
+		if (listaDeInvestimentosPorInvestidor != null)
+			todosInvestimentosTableView.setItems(listaDeInvestimentosPorInvestidor);
 	}
 
 }

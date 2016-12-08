@@ -91,6 +91,19 @@ public class Investidor {
 		return  nome.get();
 	}
 	
+	@Override
+	public boolean equals(Object that){
+	  if(this == that) return true;//if both of them points the same address in memory
+
+	  if(!(that instanceof Investidor)) return false; // if "that" is not a People or a childclass
+
+	  Investidor thatPeople = (Investidor)that; // than we can cast it to People safely
+
+	  return this.getNome().equals(thatPeople.getNome()) && this.getSenha().equals(thatPeople.getSenha());// if they have the same name and same age, then the 2 objects are equal unless they're pointing to different memory adresses
+	}
+	
+	
+	
 	
 	
 	
