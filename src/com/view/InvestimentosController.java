@@ -13,6 +13,7 @@ import com.model.VariacaoRegistro;
 import com.util.CalcularVariacao;
 import com.util.EstruturaData;
 import com.util.MascaraFinanceira;
+import com.util.OrdenaListDeInvestimentosPorData;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,6 +95,7 @@ public class InvestimentosController {
 
 		// Carregando a listaa
 		this.list = InvestimentoDAO.getTodosInvestimentos();
+		OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(list);
 
 		// Adiciona os dados da observable list à tabela
 		exibirTodosInvestimentosNaTabela();
@@ -271,8 +273,11 @@ public class InvestimentosController {
 			if (i.getInvestidor().equals(investidorSelecionado))
 				listaDeInvestimentosPorInvestidor.add(i);
 		}
-		if (listaDeInvestimentosPorInvestidor != null)
+		if (listaDeInvestimentosPorInvestidor != null){
+			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosPorInvestidor);
 			todosInvestimentosTableView.setItems(listaDeInvestimentosPorInvestidor);
+			
+		}
 	}
 
 }
