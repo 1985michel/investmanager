@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.crud.InvestimentoDAO;
 import com.model.Investimento;
+import com.view.CadastrarInvestidorController;
 import com.view.CadastrarInvestimentoController;
 import com.view.CadastrarTipoDeInvestimentoController;
 import com.view.CadastrarVariacaoController;
@@ -156,6 +157,41 @@ public class MainApp extends Application {
 			// Criando o dialogStage
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Cadastrar Variação");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			dialogStage.setResizable(true);
+			// dialogStage.getIcons().add(new
+			// Image("file:resources/images/edit.png"));
+			Scene scene = new Scene(page);
+			addPersonalStyle(scene);
+			dialogStage.setScene(scene);
+
+			// Dando ao controlador poderes sobre seu próprio dialogStage
+			controller.setDialogStage(dialogStage);
+
+			// Show
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showCadastrarInvestidorOverview() {
+		try {
+
+			// Load o FXML
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/cadastrarInvestidorOverview.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Dá ao controlador acesso ao MainApp
+			CadastrarInvestidorController controller = loader.getController();
+			controller.setMainApp(this);
+
+			// Criando o dialogStage
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Cadastrar Investidor");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			dialogStage.setResizable(true);

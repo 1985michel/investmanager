@@ -31,5 +31,9 @@ public class MolduraController {
     	this.mainApp.showCadastrarTipoDeInvestimentoOverview();
     }
     
+    public void exibirCadastrarInvestidor(){
+    	this.mainApp.showCadastrarInvestidorOverview();
+    }
+    
     
 }

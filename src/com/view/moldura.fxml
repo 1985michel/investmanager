@@ -40,6 +40,7 @@
                      <children>
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibirCadastrarInvestimento" text="Cadastrar Investimento" VBox.vgrow="ALWAYS" />
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibierCadastrarTipoDeInvestimento" text="Cadastrar&#10;Tipo De Investimento" textAlignment="CENTER" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exibirCadastrarInvestidor" text="Cadastrar Investidor" />
                      </children>
                   </VBox>
                </children>
