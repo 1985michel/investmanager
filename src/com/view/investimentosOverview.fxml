@@ -27,6 +27,7 @@
             <TableView fx:id="todosInvestimentosTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <columns>
                   <TableColumn fx:id="idTableColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Id" />
+                  <TableColumn fx:id="eficienciaTableColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="\% efic." />
                 <TableColumn fx:id="nomeTableColumn" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="100.0" text="Investimento" />
                 <TableColumn fx:id="dataTableColumn" maxWidth="80.0" minWidth="80.0" text="Data" />
                   <TableColumn fx:id="valorInvestidoTableColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Valor Investido" />

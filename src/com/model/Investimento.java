@@ -16,6 +16,7 @@ public class Investimento {
 	private Variacao variacao;
 	private TipoDeInvestimento tipoInvestimento;
 	private Investidor investidor;
+	private StringProperty eficiencia;
 	/*
 	 * O tipo não tem um investimento, é o investimento que tem um tipo. No
 	 * banco vou armazenar somente o ID do tipo de investimento Quando da
@@ -197,6 +198,24 @@ public class Investimento {
 
 	public void setInvestidor(Investidor investidor) {
 		this.investidor = investidor;
+	}
+	
+
+	public final java.lang.String getEficiencia() {
+		return this.eficiencia.getValue();
+	}
+	
+	public final StringProperty eficienciaProperty() {
+		return this.eficiencia;
+	}
+	
+
+	public final void setEficiencia(final java.lang.String eficiencia) {
+		this.eficiencia = new SimpleStringProperty(eficiencia);
+	}
+	
+	public final void setEficiencia(double ef) {
+		this.eficiencia = new SimpleStringProperty(ef+"");
 	}
 
 }

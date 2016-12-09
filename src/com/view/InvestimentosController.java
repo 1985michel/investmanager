@@ -3,6 +3,7 @@ package com.view;
 import java.util.List;
 
 import com.MainApp;
+import com.calculosDeEficiencia.EficienciaDeInvestimento;
 import com.crud.InvestidorDAO;
 import com.crud.InvestimentoDAO;
 import com.crud.TipoDeInvestimentoDAO;
@@ -31,9 +32,9 @@ public class InvestimentosController {
 
 	MainApp mainApp;
 
-	//static Investidor investidorSelecionado;	
-	 Investidor investidorGeral;	
-	//static TipoDeInvestimento tipoDeInvestimentoSelecionado;
+	// static Investidor investidorSelecionado;
+	Investidor investidorGeral;
+	// static TipoDeInvestimento tipoDeInvestimentoSelecionado;
 	TipoDeInvestimento tipoDeInvestimentoGeral;
 	ObservableList<Investimento> listaDeInvestimentosFiltrada = FXCollections.observableArrayList();
 
@@ -42,16 +43,19 @@ public class InvestimentosController {
 
 	@FXML
 	private ComboBox<Investidor> selecionarInvestidorComboBox;
-	
-	@FXML
-    private ComboBox<TipoDeInvestimento> selecionarTipoDeInvestimentoComboBox;
 
 	@FXML
-	
+	private ComboBox<TipoDeInvestimento> selecionarTipoDeInvestimentoComboBox;
+
+	@FXML
+
 	private TableView<Investimento> todosInvestimentosTableView;
 
 	@FXML
 	private TableColumn<Investimento, String> idTableColumn;
+
+	@FXML
+	private TableColumn<Investimento, String> eficienciaTableColumn;
 
 	@FXML
 	private TableColumn<Investimento, String> nomeTableColumn;
@@ -106,7 +110,7 @@ public class InvestimentosController {
 		OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(list);
 
 		// Adiciona os dados da observable list à tabela
-		//exibirTodosInvestimentosNaTabela();
+		// exibirTodosInvestimentosNaTabela();
 		filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 		showBalanco(listaDeInvestimentosFiltrada);
 
@@ -117,7 +121,7 @@ public class InvestimentosController {
 		calcularVaricoes();
 
 		// Apresentando o total investido
-		//showBalanco(list);
+		// showBalanco(list);
 
 	}
 
@@ -127,14 +131,20 @@ public class InvestimentosController {
 
 	private void calcularVaricoes() {
 
-		//if (MainApp.investidorSelecionado.getId().equals("-1")) {
-		//	calculoVariacoes(list);
-			//showBalanco(list);
-	//	} else {
-			calculoVariacoes(listaDeInvestimentosFiltrada);
-			showBalanco(listaDeInvestimentosFiltrada);
-		//}
+		// if (MainApp.investidorSelecionado.getId().equals("-1")) {
+		// calculoVariacoes(list);
+		// showBalanco(list);
+		// } else {
+		calculoVariacoes(listaDeInvestimentosFiltrada);
+		showBalanco(listaDeInvestimentosFiltrada);
+		calcularEficiencia();
+		// }
 
+	}
+	
+	private void calcularEficiencia(){
+		EficienciaDeInvestimento eficiencia = new EficienciaDeInvestimento(listaDeInvestimentosFiltrada);
+		eficiencia.calcularEficiencia();
 	}
 
 	private void calculoVariacoes(ObservableList<Investimento> lista) {
@@ -155,29 +165,25 @@ public class InvestimentosController {
 	private void initialize() {
 
 		// setando o investidor geral
-		if(MainApp.investidorSelecionado==null){
+		if (MainApp.investidorSelecionado == null) {
 			investidorGeral = new Investidor("-1", "Todos", "0");
 			MainApp.investidorSelecionado = investidorGeral;
-		}else{
+		} else {
 			selecionarInvestidorComboBox.setValue(MainApp.investidorSelecionado);
 		}
-		
-		if(MainApp.tipoDeInvestimentoSelecionado==null){
-			//setando o tipo de investimento Geral
+
+		if (MainApp.tipoDeInvestimentoSelecionado == null) {
+			// setando o tipo de investimento Geral
 			tipoDeInvestimentoGeral = new TipoDeInvestimento("-1", "Todos", "0");
 			MainApp.tipoDeInvestimentoSelecionado = tipoDeInvestimentoGeral;
-		}else{
+		} else {
 			selecionarTipoDeInvestimentoComboBox.setValue(MainApp.tipoDeInvestimentoSelecionado);
 			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		}
-		
-		
-		
-		
-		
 
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		eficienciaTableColumn.setCellValueFactory(cellData -> cellData.getValue().eficienciaProperty());
 		nomeTableColumn.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
 		// Informando o foramto de datas que quero que seja apresentado na
 		// tabela
@@ -216,7 +222,7 @@ public class InvestimentosController {
 			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
-		
+
 		List<TipoDeInvestimento> listaDeTipos = TipoDeInvestimentoDAO.getTodosTiposDeInvestimentos();
 		listaDeTipos.add(tipoDeInvestimentoGeral);
 		for (TipoDeInvestimento tipo : listaDeTipos) {
@@ -229,8 +235,6 @@ public class InvestimentosController {
 			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
-		
-		
 
 		/*
 		 * // Detecta o duplo click do mouse e apresenta o investimento para
@@ -256,10 +260,10 @@ public class InvestimentosController {
 		 * ConsultarAtendimentoPeloId(idAte); // fecha o dialog do histórico
 		 * this.dialogStage.close(); } } });
 		 */
+		
+		
 
 	}
-
-
 
 	private void showBalanco(ObservableList<Investimento> lista) {
 		double totalInvestido = 0.0;
@@ -284,6 +288,14 @@ public class InvestimentosController {
 		editarInvestimentoButton.setDisable(status);
 		excluirInvestimentoButton.setDisable(status);
 
+		EficienciaDeInvestimento eficiencia = new EficienciaDeInvestimento(listaDeInvestimentosFiltrada);
+		/*
+		 * Investimento iv = null; for (Investimento i :
+		 * listaDeInvestimentosFiltrada) { if(i.getId().equalsIgnoreCase("23"))
+		 * iv = i;
+		 * 
+		 * } eficiencia.getEficiencia(iv);
+		 */
 		informarInvestimentoParaMainApp(newValue);
 	}
 
@@ -309,12 +321,10 @@ public class InvestimentosController {
 	private void filtrandoInvestimentosPorInvestidorETipoDeInvestimento() {
 		// Primeiro exibindo todos
 		/*
-		if (MainApp.investidorSelecionado.getId().equals("-1") && MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1")) {
-			exibirTodosInvestimentosNaTabela();
-			showBalanco(list);
-			return;
-		}
-		*/
+		 * if (MainApp.investidorSelecionado.getId().equals("-1") &&
+		 * MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1")) {
+		 * exibirTodosInvestimentosNaTabela(); showBalanco(list); return; }
+		 */
 		// Agora Filtrando
 
 		listaDeInvestimentosFiltrada.clear();
@@ -322,33 +332,33 @@ public class InvestimentosController {
 			if (isInvestidorSelecionado(i) && isTipoFiltrado(i))
 				listaDeInvestimentosFiltrada.add(i);
 		}
-		if (listaDeInvestimentosFiltrada != null){
+		if (listaDeInvestimentosFiltrada != null) {
 			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosFiltrada);
 			todosInvestimentosTableView.setItems(listaDeInvestimentosFiltrada);
 			showBalanco(listaDeInvestimentosFiltrada);
-			
+
 		}
 	}
-	
-	//Método que verifica se o investimento é do tipo selecionado no comboBox
-	private boolean isTipoFiltrado(Investimento i){
-		if(MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1"))		
+
+	// Método que verifica se o investimento é do tipo selecionado no comboBox
+	private boolean isTipoFiltrado(Investimento i) {
+		if (MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1"))
 			return true;
-		else if(i.getTipoInvestimento().equals(MainApp.tipoDeInvestimentoSelecionado))
+		else if (i.getTipoInvestimento().equals(MainApp.tipoDeInvestimentoSelecionado))
 			return true;
-		
+
 		return false;
 	}
-	
-	//Método que verifica se o investimento é do investidor selecionado no comboBox
-	private boolean isInvestidorSelecionado(Investimento i){
-		if(MainApp.investidorSelecionado.getId().equals("-1"))		
+
+	// Método que verifica se o investimento é do investidor selecionado no
+	// comboBox
+	private boolean isInvestidorSelecionado(Investimento i) {
+		if (MainApp.investidorSelecionado.getId().equals("-1"))
 			return true;
-		else if(i.getInvestidor().equals(MainApp.investidorSelecionado))
+		else if (i.getInvestidor().equals(MainApp.investidorSelecionado))
 			return true;
-		
+
 		return false;
 	}
-	
 
 }

@@ -8,6 +8,7 @@ public class Investidor {
 	private StringProperty id;
 	private StringProperty nome;
 	private StringProperty senha;
+	
 
 	public Investidor(String nome, String senha) {
 		super();
@@ -78,5 +79,12 @@ public class Investidor {
 
 		return this.getNome().equals(thatPeople.getNome()) && this.getSenha().equals(thatPeople.getSenha());
 	}
+
+	
+	
+
+	
+	
+	
 
 }
