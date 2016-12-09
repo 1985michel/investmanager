@@ -69,5 +69,19 @@ public class TipoDeInvestimento {
 		// calculadoraDeCustos=" + calculadoraDeCustos.getId() + "]";
 		return this.getNome();
 	}
+	
+	@Override
+	public boolean equals(Object that) {
+		if (this == that)
+			return true;// if both of them points the same address in memory
+
+		if (!(that instanceof TipoDeInvestimento))
+			return false; // if "that" is not a People or a childclass
+
+		TipoDeInvestimento thatPeople = (TipoDeInvestimento) that; // than we can cast it to
+													// People safely
+
+		return this.getNome().equals(thatPeople.getNome()) && this.getCalculadoraDeCustos().equals(thatPeople.getCalculadoraDeCustos());
+	}
 
 }

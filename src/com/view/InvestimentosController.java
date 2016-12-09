@@ -5,9 +5,11 @@ import java.util.List;
 import com.MainApp;
 import com.crud.InvestidorDAO;
 import com.crud.InvestimentoDAO;
+import com.crud.TipoDeInvestimentoDAO;
 import com.crud.VariacaoRegistroDAO;
 import com.model.Investidor;
 import com.model.Investimento;
+import com.model.TipoDeInvestimento;
 import com.model.Variacao;
 import com.model.VariacaoRegistro;
 import com.util.CalcularVariacao;
@@ -32,14 +34,22 @@ public class InvestimentosController {
 	Investidor investidorSelecionado;
 	ObservableList<Investimento> listaDeInvestimentosPorInvestidor = FXCollections.observableArrayList();
 	Investidor investidorGeral;
+	
+	TipoDeInvestimento tipoDeInvestimentoSelecionado;
+	ObservableList<Investimento> listaDeInvestimentosPorTipoDeInvestimento = FXCollections.observableArrayList();
+	TipoDeInvestimento tipoDeInvestimentoGeral;
 
 	// Observable list que conterá todos os investimentos
 	public ObservableList<Investimento> list = FXCollections.observableArrayList();
 
 	@FXML
 	private ComboBox<Investidor> selecionarInvestidorComboBox;
+	
+	@FXML
+    private ComboBox<TipoDeInvestimento> selecionarTipoDeInvestimentoComboBox;
 
 	@FXML
+	
 	private TableView<Investimento> todosInvestimentosTableView;
 
 	@FXML
@@ -147,6 +157,10 @@ public class InvestimentosController {
 		// setando o investidor geral
 		investidorGeral = new Investidor("-1", "Todos", "0");
 		investidorSelecionado = investidorGeral;
+		
+		//setando o tipo de investimento Geral
+		tipoDeInvestimentoGeral = new TipoDeInvestimento("-1", "Todos", "0");
+		tipoDeInvestimentoSelecionado = tipoDeInvestimentoGeral;
 
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		nomeTableColumn.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
@@ -187,6 +201,21 @@ public class InvestimentosController {
 			filtrandoInvestimentosPorInvestidor();
 			calcularVaricoes();
 		});
+		
+		List<TipoDeInvestimento> listaDeTipos = TipoDeInvestimentoDAO.getTodosTiposDeInvestimentos();
+		listaDeTipos.add(tipoDeInvestimentoGeral);
+		for (TipoDeInvestimento tipo : listaDeTipos) {
+			selecionarTipoDeInvestimentoComboBox.getItems().add(tipo);
+		}
+
+		selecionarTipoDeInvestimentoComboBox.setOnAction((event) -> {
+			// System.out.println(mcb.getValue().idMateria);
+			tipoDeInvestimentoSelecionado = selecionarTipoDeInvestimentoComboBox.getValue();
+			filtrandoInvestimentosPorTipo();
+			calcularVaricoes();
+		});
+		
+		
 
 		/*
 		 * // Detecta o duplo click do mouse e apresenta o investimento para
@@ -214,6 +243,8 @@ public class InvestimentosController {
 		 */
 
 	}
+
+
 
 	private void showBalanco(ObservableList<Investimento> lista) {
 		double totalInvestido = 0.0;
@@ -278,6 +309,29 @@ public class InvestimentosController {
 			todosInvestimentosTableView.setItems(listaDeInvestimentosPorInvestidor);
 			
 		}
+	}
+	
+	private void filtrandoInvestimentosPorTipo() {
+
+		// Primeiro exibindo todos
+		if (tipoDeInvestimentoSelecionado.getId().equals("-1")) {
+			exibirTodosInvestimentosNaTabela();
+			return;
+		}
+
+		// Agora Filtrando por tipoDeInvestimento
+
+		listaDeInvestimentosPorTipoDeInvestimento.clear();
+		for (Investimento i : list) {
+			if (i.getTipoInvestimento().equals(tipoDeInvestimentoSelecionado))
+				listaDeInvestimentosPorTipoDeInvestimento.add(i);
+		}
+		if (listaDeInvestimentosPorTipoDeInvestimento != null){
+			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosPorTipoDeInvestimento);
+			todosInvestimentosTableView.setItems(listaDeInvestimentosPorTipoDeInvestimento);
+			
+		}
+		
 	}
 
 }

@@ -76,28 +76,7 @@ public class Investidor {
 		Investidor thatPeople = (Investidor) that; // than we can cast it to
 													// People safely
 
-		return this.getNome().equals(thatPeople.getNome()) && this.getSenha().equals(thatPeople.getSenha());// if
-																											// they
-																											// have
-																											// the
-																											// same
-																											// name
-																											// and
-																											// same
-																											// age,
-																											// then
-																											// the
-																											// 2
-																											// objects
-																											// are
-																											// equal
-																											// unless
-																											// they're
-																											// pointing
-																											// to
-																											// different
-																											// memory
-																											// adresses
+		return this.getNome().equals(thatPeople.getNome()) && this.getSenha().equals(thatPeople.getSenha());
 	}
 
 }
