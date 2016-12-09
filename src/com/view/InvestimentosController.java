@@ -31,13 +31,11 @@ public class InvestimentosController {
 
 	MainApp mainApp;
 
-	Investidor investidorSelecionado;
-	ObservableList<Investimento> listaDeInvestimentosPorInvestidor = FXCollections.observableArrayList();
-	Investidor investidorGeral;
-	
+	Investidor investidorSelecionado;	
+	Investidor investidorGeral;	
 	TipoDeInvestimento tipoDeInvestimentoSelecionado;
-	ObservableList<Investimento> listaDeInvestimentosPorTipoDeInvestimento = FXCollections.observableArrayList();
 	TipoDeInvestimento tipoDeInvestimentoGeral;
+	ObservableList<Investimento> listaDeInvestimentosFiltrada = FXCollections.observableArrayList();
 
 	// Observable list que conterá todos os investimentos
 	public ObservableList<Investimento> list = FXCollections.observableArrayList();
@@ -131,8 +129,8 @@ public class InvestimentosController {
 			calculoVariacoes(list);
 			showBalanco(list);
 		} else {
-			calculoVariacoes(listaDeInvestimentosPorInvestidor);
-			showBalanco(listaDeInvestimentosPorInvestidor);
+			calculoVariacoes(listaDeInvestimentosFiltrada);
+			showBalanco(listaDeInvestimentosFiltrada);
 		}
 
 	}
@@ -198,7 +196,7 @@ public class InvestimentosController {
 		selecionarInvestidorComboBox.setOnAction((event) -> {
 			// System.out.println(mcb.getValue().idMateria);
 			investidorSelecionado = selecionarInvestidorComboBox.getValue();
-			filtrandoInvestimentosPorInvestidor();
+			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
 		
@@ -211,7 +209,7 @@ public class InvestimentosController {
 		selecionarTipoDeInvestimentoComboBox.setOnAction((event) -> {
 			// System.out.println(mcb.getValue().idMateria);
 			tipoDeInvestimentoSelecionado = selecionarTipoDeInvestimentoComboBox.getValue();
-			filtrandoInvestimentosPorTipo();
+			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
 		
@@ -290,48 +288,46 @@ public class InvestimentosController {
 		this.mainApp.excluirInvestimento();
 	}
 
-	private void filtrandoInvestimentosPorInvestidor() {
+	private void filtrandoInvestimentosPorInvestidorETipoDeInvestimento() {
 		// Primeiro exibindo todos
-		if (investidorSelecionado.getId().equals("-1")) {
+		if (investidorSelecionado.getId().equals("-1") && tipoDeInvestimentoSelecionado.getId().equals("-1")) {
 			exibirTodosInvestimentosNaTabela();
 			return;
 		}
 
-		// Agora Filtrando por investidor
+		// Agora Filtrando
 
-		listaDeInvestimentosPorInvestidor.clear();
+		listaDeInvestimentosFiltrada.clear();
 		for (Investimento i : list) {
-			if (i.getInvestidor().equals(investidorSelecionado))
-				listaDeInvestimentosPorInvestidor.add(i);
+			if (isInvestidorSelecionado(i) && isTipoFiltrado(i))
+				listaDeInvestimentosFiltrada.add(i);
 		}
-		if (listaDeInvestimentosPorInvestidor != null){
-			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosPorInvestidor);
-			todosInvestimentosTableView.setItems(listaDeInvestimentosPorInvestidor);
+		if (listaDeInvestimentosFiltrada != null){
+			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosFiltrada);
+			todosInvestimentosTableView.setItems(listaDeInvestimentosFiltrada);
 			
 		}
 	}
 	
-	private void filtrandoInvestimentosPorTipo() {
-
-		// Primeiro exibindo todos
-		if (tipoDeInvestimentoSelecionado.getId().equals("-1")) {
-			exibirTodosInvestimentosNaTabela();
-			return;
-		}
-
-		// Agora Filtrando por tipoDeInvestimento
-
-		listaDeInvestimentosPorTipoDeInvestimento.clear();
-		for (Investimento i : list) {
-			if (i.getTipoInvestimento().equals(tipoDeInvestimentoSelecionado))
-				listaDeInvestimentosPorTipoDeInvestimento.add(i);
-		}
-		if (listaDeInvestimentosPorTipoDeInvestimento != null){
-			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosPorTipoDeInvestimento);
-			todosInvestimentosTableView.setItems(listaDeInvestimentosPorTipoDeInvestimento);
-			
-		}
+	//Método que verifica se o investimento é do tipo selecionado no comboBox
+	private boolean isTipoFiltrado(Investimento i){
+		if(tipoDeInvestimentoSelecionado.getId().equals("-1"))		
+			return true;
+		else if(i.getTipoInvestimento().equals(tipoDeInvestimentoSelecionado))
+			return true;
 		
+		return false;
 	}
+	
+	//Método que verifica se o investimento é do investidor selecionado no comboBox
+	private boolean isInvestidorSelecionado(Investimento i){
+		if(investidorSelecionado.getId().equals("-1"))		
+			return true;
+		else if(i.getInvestidor().equals(investidorSelecionado))
+			return true;
+		
+		return false;
+	}
+	
 
 }
