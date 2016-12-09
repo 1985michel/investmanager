@@ -31,9 +31,9 @@ public class InvestimentosController {
 
 	MainApp mainApp;
 
-	Investidor investidorSelecionado;	
-	Investidor investidorGeral;	
-	TipoDeInvestimento tipoDeInvestimentoSelecionado;
+	//static Investidor investidorSelecionado;	
+	 Investidor investidorGeral;	
+	//static TipoDeInvestimento tipoDeInvestimentoSelecionado;
 	TipoDeInvestimento tipoDeInvestimentoGeral;
 	ObservableList<Investimento> listaDeInvestimentosFiltrada = FXCollections.observableArrayList();
 
@@ -106,7 +106,8 @@ public class InvestimentosController {
 		OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(list);
 
 		// Adiciona os dados da observable list à tabela
-		exibirTodosInvestimentosNaTabela();
+		//exibirTodosInvestimentosNaTabela();
+		filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 
 		// Passando a lista para o main
 		MainApp.listaInvestimentos = list;
@@ -125,7 +126,7 @@ public class InvestimentosController {
 
 	private void calcularVaricoes() {
 
-		if (investidorSelecionado.getId().equals("-1")) {
+		if (MainApp.investidorSelecionado.getId().equals("-1")) {
 			calculoVariacoes(list);
 			showBalanco(list);
 		} else {
@@ -153,12 +154,27 @@ public class InvestimentosController {
 	private void initialize() {
 
 		// setando o investidor geral
-		investidorGeral = new Investidor("-1", "Todos", "0");
-		investidorSelecionado = investidorGeral;
+		if(MainApp.investidorSelecionado==null){
+			investidorGeral = new Investidor("-1", "Todos", "0");
+			MainApp.investidorSelecionado = investidorGeral;
+		}else{
+			selecionarInvestidorComboBox.setValue(MainApp.investidorSelecionado);
+		}
 		
-		//setando o tipo de investimento Geral
-		tipoDeInvestimentoGeral = new TipoDeInvestimento("-1", "Todos", "0");
-		tipoDeInvestimentoSelecionado = tipoDeInvestimentoGeral;
+		if(MainApp.tipoDeInvestimentoSelecionado==null){
+			//setando o tipo de investimento Geral
+			tipoDeInvestimentoGeral = new TipoDeInvestimento("-1", "Todos", "0");
+			MainApp.tipoDeInvestimentoSelecionado = tipoDeInvestimentoGeral;
+		}else{
+			selecionarTipoDeInvestimentoComboBox.setValue(MainApp.tipoDeInvestimentoSelecionado);
+			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
+			calcularVaricoes();
+		}
+		
+		
+		
+		
+		
 
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		nomeTableColumn.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
@@ -195,7 +211,7 @@ public class InvestimentosController {
 
 		selecionarInvestidorComboBox.setOnAction((event) -> {
 			// System.out.println(mcb.getValue().idMateria);
-			investidorSelecionado = selecionarInvestidorComboBox.getValue();
+			MainApp.investidorSelecionado = selecionarInvestidorComboBox.getValue();
 			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
@@ -208,7 +224,7 @@ public class InvestimentosController {
 
 		selecionarTipoDeInvestimentoComboBox.setOnAction((event) -> {
 			// System.out.println(mcb.getValue().idMateria);
-			tipoDeInvestimentoSelecionado = selecionarTipoDeInvestimentoComboBox.getValue();
+			MainApp.tipoDeInvestimentoSelecionado = selecionarTipoDeInvestimentoComboBox.getValue();
 			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
 			calcularVaricoes();
 		});
@@ -290,7 +306,7 @@ public class InvestimentosController {
 
 	private void filtrandoInvestimentosPorInvestidorETipoDeInvestimento() {
 		// Primeiro exibindo todos
-		if (investidorSelecionado.getId().equals("-1") && tipoDeInvestimentoSelecionado.getId().equals("-1")) {
+		if (MainApp.investidorSelecionado.getId().equals("-1") && MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1")) {
 			exibirTodosInvestimentosNaTabela();
 			return;
 		}
@@ -311,9 +327,9 @@ public class InvestimentosController {
 	
 	//Método que verifica se o investimento é do tipo selecionado no comboBox
 	private boolean isTipoFiltrado(Investimento i){
-		if(tipoDeInvestimentoSelecionado.getId().equals("-1"))		
+		if(MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1"))		
 			return true;
-		else if(i.getTipoInvestimento().equals(tipoDeInvestimentoSelecionado))
+		else if(i.getTipoInvestimento().equals(MainApp.tipoDeInvestimentoSelecionado))
 			return true;
 		
 		return false;
@@ -321,9 +337,9 @@ public class InvestimentosController {
 	
 	//Método que verifica se o investimento é do investidor selecionado no comboBox
 	private boolean isInvestidorSelecionado(Investimento i){
-		if(investidorSelecionado.getId().equals("-1"))		
+		if(MainApp.investidorSelecionado.getId().equals("-1"))		
 			return true;
-		else if(i.getInvestidor().equals(investidorSelecionado))
+		else if(i.getInvestidor().equals(MainApp.investidorSelecionado))
 			return true;
 		
 		return false;

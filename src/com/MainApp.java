@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.crud.InvestimentoDAO;
+import com.model.Investidor;
 import com.model.Investimento;
+import com.model.TipoDeInvestimento;
 import com.view.CadastrarInvestidorController;
 import com.view.CadastrarInvestimentoController;
 import com.view.CadastrarTipoDeInvestimentoController;
@@ -34,6 +36,9 @@ public class MainApp extends Application {
 	private MolduraController molduraController;
 	public static List<Investimento> listaInvestimentos;
 	public static Investimento investimentoSelecionado;
+	
+	public static Investidor investidorSelecionado;
+	public static TipoDeInvestimento tipoDeInvestimentoSelecionado;
 
 	public void addPersonalStyle(Scene scene) {
 
