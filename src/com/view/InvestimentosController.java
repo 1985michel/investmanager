@@ -27,6 +27,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableCell;
 
 public class InvestimentosController {
 
@@ -37,6 +39,10 @@ public class InvestimentosController {
 	// static TipoDeInvestimento tipoDeInvestimentoSelecionado;
 	TipoDeInvestimento tipoDeInvestimentoGeral;
 	ObservableList<Investimento> listaDeInvestimentosFiltrada = FXCollections.observableArrayList();
+
+	// Sobre a coloração das rows
+	Investimento iMelhor;
+	Investimento iPior;
 
 	// Observable list que conterá todos os investimentos
 	public ObservableList<Investimento> list = FXCollections.observableArrayList();
@@ -124,6 +130,8 @@ public class InvestimentosController {
 		// showBalanco(list);
 
 	}
+	
+	
 
 	private void exibirTodosInvestimentosNaTabela() {
 		todosInvestimentosTableView.setItems(list);
@@ -138,11 +146,12 @@ public class InvestimentosController {
 		calculoVariacoes(listaDeInvestimentosFiltrada);
 		showBalanco(listaDeInvestimentosFiltrada);
 		calcularEficiencia();
+		setMelhorEPiorInvestimentoEmTermosDeEficiencia(listaDeInvestimentosFiltrada);
 		// }
 
 	}
-	
-	private void calcularEficiencia(){
+
+	private void calcularEficiencia() {
 		EficienciaDeInvestimento eficiencia = new EficienciaDeInvestimento(listaDeInvestimentosFiltrada);
 		eficiencia.calcularEficiencia();
 	}
@@ -163,6 +172,9 @@ public class InvestimentosController {
 	 */
 	@FXML
 	private void initialize() {
+		
+		
+
 
 		// setando o investidor geral
 		if (MainApp.investidorSelecionado == null) {
@@ -184,6 +196,31 @@ public class InvestimentosController {
 
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		eficienciaTableColumn.setCellValueFactory(cellData -> cellData.getValue().eficienciaProperty());
+
+		eficienciaTableColumn.setCellFactory(column -> {
+			return new TableCell<Investimento, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					if (item != null && item != "") {
+						super.updateItem(item, empty);
+
+						// LocalDate data = geraData(item);
+						
+						String variacaoCorrente = item;
+
+						setText(item);
+
+						TableRow<Investimento> currentRow = getTableRow();
+
+						if (currentRow != null) {
+							setRowColorPorEficiencia(currentRow,variacaoCorrente);
+						}
+
+					}
+				}
+			};
+		});
+
 		nomeTableColumn.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
 		// Informando o foramto de datas que quero que seja apresentado na
 		// tabela
@@ -260,9 +297,55 @@ public class InvestimentosController {
 		 * ConsultarAtendimentoPeloId(idAte); // fecha o dialog do histórico
 		 * this.dialogStage.close(); } } });
 		 */
+
+	}
+
+	private void setRowColorPorEficiencia(TableRow<Investimento> currentRow, String variacao) {
+
+		//System.out.println("Melhor: "+iMelhor.getEficiencia());
+		//System.out.println("Pior: "+iPior.getEficiencia());
 		
+		if(variacao.equalsIgnoreCase(iPior.getEficiencia())){
+			currentRow.setStyle("-fx-background-color: #FE7B51;");
+		}
+		
+		if(variacao.equalsIgnoreCase(iMelhor.getEficiencia())){
+			currentRow.setStyle("-fx-background-color: #009926;");
+		}
 		
 
+	}
+	
+	public void setMelhorEPiorInvestimentoEmTermosDeEficiencia(List<Investimento> list){
+		Investimento iMelhor = null;
+		Investimento iPior = null;
+
+		double a = 0.0;
+		double b = 0.0;
+
+		if (list != null && list.size() > 2) {
+
+			iMelhor = list.get(0);
+			iPior = list.get(0);
+
+			for (Investimento i : list) {
+
+				a = new Double(iMelhor.getEficiencia().replace(',', '.'));
+				b = new Double(iPior.getEficiencia().replace(',', '.'));
+
+				if (a < new Double(i.getEficiencia().replace(',', '.'))) {
+					iMelhor = i;
+				}
+				if (b > new Double(i.getEficiencia().replace(',', '.'))) {
+					//System.out.println("Piorando: "+i.getEficiencia());
+					iPior = i;
+				}
+			}
+			
+			this.iMelhor = iMelhor;
+			this.iPior = iPior;
+
+		}
 	}
 
 	private void showBalanco(ObservableList<Investimento> lista) {
