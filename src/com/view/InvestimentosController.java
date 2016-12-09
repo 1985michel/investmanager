@@ -108,6 +108,7 @@ public class InvestimentosController {
 		// Adiciona os dados da observable list à tabela
 		//exibirTodosInvestimentosNaTabela();
 		filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
+		showBalanco(listaDeInvestimentosFiltrada);
 
 		// Passando a lista para o main
 		MainApp.listaInvestimentos = list;
@@ -116,7 +117,7 @@ public class InvestimentosController {
 		calcularVaricoes();
 
 		// Apresentando o total investido
-		showBalanco(list);
+		//showBalanco(list);
 
 	}
 
@@ -126,13 +127,13 @@ public class InvestimentosController {
 
 	private void calcularVaricoes() {
 
-		if (MainApp.investidorSelecionado.getId().equals("-1")) {
-			calculoVariacoes(list);
-			showBalanco(list);
-		} else {
+		//if (MainApp.investidorSelecionado.getId().equals("-1")) {
+		//	calculoVariacoes(list);
+			//showBalanco(list);
+	//	} else {
 			calculoVariacoes(listaDeInvestimentosFiltrada);
 			showBalanco(listaDeInvestimentosFiltrada);
-		}
+		//}
 
 	}
 
@@ -274,6 +275,7 @@ public class InvestimentosController {
 		valorTotalInvestidoLabel.setText("R$ " + MascaraFinanceira.show(totalInvestido));
 		lucroTotalBrutoLabel.setText("R$ " + MascaraFinanceira.show(lucro));
 		variacaoLabel.setText((CalcularVariacao.getLucroPercentualString(totalInvestido, totalAtual)) + "%");
+		valorTotalLabel.setText("R$ " + MascaraFinanceira.show(totalAtual));
 	}
 
 	private void permitirAcoes(Investimento newValue) {
@@ -306,11 +308,13 @@ public class InvestimentosController {
 
 	private void filtrandoInvestimentosPorInvestidorETipoDeInvestimento() {
 		// Primeiro exibindo todos
+		/*
 		if (MainApp.investidorSelecionado.getId().equals("-1") && MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1")) {
 			exibirTodosInvestimentosNaTabela();
+			showBalanco(list);
 			return;
 		}
-
+		*/
 		// Agora Filtrando
 
 		listaDeInvestimentosFiltrada.clear();
@@ -321,6 +325,7 @@ public class InvestimentosController {
 		if (listaDeInvestimentosFiltrada != null){
 			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosFiltrada);
 			todosInvestimentosTableView.setItems(listaDeInvestimentosFiltrada);
+			showBalanco(listaDeInvestimentosFiltrada);
 			
 		}
 	}
