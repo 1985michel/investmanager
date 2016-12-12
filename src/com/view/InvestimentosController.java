@@ -18,6 +18,7 @@ import com.util.EstruturaData;
 import com.util.MascaraFinanceira;
 import com.util.OrdenaListDeInvestimentosPorData;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -113,41 +114,28 @@ public class InvestimentosController {
 
 		// Carregando a listaa
 		this.list = InvestimentoDAO.getTodosInvestimentos();
-		OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(list);
+		// OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(list);
 
-		// Adiciona os dados da observable list à tabela
-		// exibirTodosInvestimentosNaTabela();
 		filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
-		showBalanco(listaDeInvestimentosFiltrada);
+		// showBalanco(listaDeInvestimentosFiltrada);
+
+		// >>>>
+		// setMelhorEPiorInvestimentoEmTermosDeEficiencia(listaDeInvestimentosFiltrada);
 
 		// Passando a lista para o main
 		MainApp.listaInvestimentos = list;
-
-		// Calculando as variações com base na atualização mais recente
-		calcularVaricoes();
 
 		// Apresentando o total investido
 		// showBalanco(list);
 
 	}
-	
-	
-
-	private void exibirTodosInvestimentosNaTabela() {
-		todosInvestimentosTableView.setItems(list);
-	}
 
 	private void calcularVaricoes() {
 
-		// if (MainApp.investidorSelecionado.getId().equals("-1")) {
-		// calculoVariacoes(list);
-		// showBalanco(list);
-		// } else {
 		calculoVariacoes(listaDeInvestimentosFiltrada);
 		showBalanco(listaDeInvestimentosFiltrada);
 		calcularEficiencia();
 		setMelhorEPiorInvestimentoEmTermosDeEficiencia(listaDeInvestimentosFiltrada);
-		// }
 
 	}
 
@@ -172,9 +160,6 @@ public class InvestimentosController {
 	 */
 	@FXML
 	private void initialize() {
-		
-		
-
 
 		// setando o investidor geral
 		if (MainApp.investidorSelecionado == null) {
@@ -190,30 +175,43 @@ public class InvestimentosController {
 			MainApp.tipoDeInvestimentoSelecionado = tipoDeInvestimentoGeral;
 		} else {
 			selecionarTipoDeInvestimentoComboBox.setValue(MainApp.tipoDeInvestimentoSelecionado);
-			filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
-			calcularVaricoes();
+			// filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
+			// calcularVaricoes();
 		}
 
+		filtrandoInvestimentosPorInvestidorETipoDeInvestimento();
+
 		idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+
 		eficienciaTableColumn.setCellValueFactory(cellData -> cellData.getValue().eficienciaProperty());
 
 		eficienciaTableColumn.setCellFactory(column -> {
 			return new TableCell<Investimento, String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
+
+					TableRow<Investimento> currentRow = getTableRow();
+
+					// limpando css anteriorores
+					currentRow.setStyle("");
+
+					// limpando os dados da última atualização feita
+					if (item == null) {
+						setText("");
+					}
+
+					// Trabalhando a visualização
 					if (item != null && item != "") {
 						super.updateItem(item, empty);
 
 						// LocalDate data = geraData(item);
-						
+
 						String variacaoCorrente = item;
 
 						setText(item);
 
-						TableRow<Investimento> currentRow = getTableRow();
-
 						if (currentRow != null) {
-							setRowColorPorEficiencia(currentRow,variacaoCorrente);
+							setRowColorPorEficiencia(currentRow, variacaoCorrente);
 						}
 
 					}
@@ -302,21 +300,22 @@ public class InvestimentosController {
 
 	private void setRowColorPorEficiencia(TableRow<Investimento> currentRow, String variacao) {
 
-		//System.out.println("Melhor: "+iMelhor.getEficiencia());
-		//System.out.println("Pior: "+iPior.getEficiencia());
-		
-		if(variacao.equalsIgnoreCase(iPior.getEficiencia())){
-			currentRow.setStyle("-fx-background-color: #FE7B51;");
+		// System.out.println("Melhor: "+iMelhor.getEficiencia());
+		// System.out.println("Pior: "+iPior.getEficiencia());
+
+		if (listaDeInvestimentosFiltrada.size() > 2) {
+			if (variacao.equalsIgnoreCase(iPior.getEficiencia())) {
+				currentRow.setStyle("-fx-background-color: #FE7B51;");
+			}
+
+			if (variacao.equalsIgnoreCase(iMelhor.getEficiencia())) {
+				currentRow.setStyle("-fx-background-color: #009926;");
+			}
 		}
-		
-		if(variacao.equalsIgnoreCase(iMelhor.getEficiencia())){
-			currentRow.setStyle("-fx-background-color: #009926;");
-		}
-		
 
 	}
-	
-	public void setMelhorEPiorInvestimentoEmTermosDeEficiencia(List<Investimento> list){
+
+	public void setMelhorEPiorInvestimentoEmTermosDeEficiencia(List<Investimento> list) {
 		Investimento iMelhor = null;
 		Investimento iPior = null;
 
@@ -337,11 +336,11 @@ public class InvestimentosController {
 					iMelhor = i;
 				}
 				if (b > new Double(i.getEficiencia().replace(',', '.'))) {
-					//System.out.println("Piorando: "+i.getEficiencia());
+					// System.out.println("Piorando: "+i.getEficiencia());
 					iPior = i;
 				}
 			}
-			
+
 			this.iMelhor = iMelhor;
 			this.iPior = iPior;
 
@@ -402,25 +401,36 @@ public class InvestimentosController {
 	}
 
 	private void filtrandoInvestimentosPorInvestidorETipoDeInvestimento() {
-		// Primeiro exibindo todos
-		/*
-		 * if (MainApp.investidorSelecionado.getId().equals("-1") &&
-		 * MainApp.tipoDeInvestimentoSelecionado.getId().equals("-1")) {
-		 * exibirTodosInvestimentosNaTabela(); showBalanco(list); return; }
-		 */
-		// Agora Filtrando
 
-		listaDeInvestimentosFiltrada.clear();
+		// refreshTable();
+
+		listaDeInvestimentosFiltrada.removeAll(listaDeInvestimentosFiltrada);
 		for (Investimento i : list) {
 			if (isInvestidorSelecionado(i) && isTipoFiltrado(i))
 				listaDeInvestimentosFiltrada.add(i);
 		}
 		if (listaDeInvestimentosFiltrada != null) {
+
 			OrdenaListDeInvestimentosPorData.ordenaInvestimentosPorData(listaDeInvestimentosFiltrada);
 			todosInvestimentosTableView.setItems(listaDeInvestimentosFiltrada);
-			showBalanco(listaDeInvestimentosFiltrada);
+			calcularVaricoes();
 
 		}
+	}
+
+	void refreshTable() {
+		final List<Investimento> items = todosInvestimentosTableView.getItems();
+		if (items == null || items.size() == 0)
+			return;
+
+		final Investimento item = todosInvestimentosTableView.getItems().get(0);
+		items.remove(0);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				items.add(0, item);
+			}
+		});
 	}
 
 	// Método que verifica se o investimento é do tipo selecionado no comboBox
