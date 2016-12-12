@@ -196,6 +196,7 @@ public class InvestimentosController {
 					currentRow.setStyle("");
 
 					// limpando os dados da última atualização feita
+					//THIS IS MY SOLUTION TO CLEAR THE OLD DATAS <<<<<<<<<<<<<<<<<<<<<<<<<<<
 					if (item == null) {
 						setText("");
 					}
