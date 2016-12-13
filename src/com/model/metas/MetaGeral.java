@@ -3,22 +3,24 @@ package com.model.metas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetaGeral extends Meta {
+public class MetaGeral{
 
-	AcompanhamentoDeMeta acompanhamentoDeMeta;
-	List<Meta> submetas;
+	public Meta meta;
+	public AcompanhamentoDeMeta acompanhamentoDeMeta;
+	public List<Meta> submetas;
 	
 
-	MetaGeral(String data, String valor, String descricao) {
-		super(data, valor);
-		this.setDescricao(descricao);
+	public MetaGeral(String data, String valor) {
+		this.meta = new Meta(data, valor);
 		submetas = new ArrayList<>();
-		this.acompanhamentoDeMeta = new AcompanhamentoDeMeta(submetas);
+		this.acompanhamentoDeMeta = new AcompanhamentoDeMeta(this.meta,submetas);
 	}
 	
-	MetaGeral(String data, double valor, String descricao) {
-		this(data, String.valueOf(valor), descricao);
+	public MetaGeral(String data, double valor, String descricao) {
+		this(data, String.valueOf(valor));
 	}
+	
+	
 	
 	
 	

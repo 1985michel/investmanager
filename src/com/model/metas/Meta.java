@@ -1,5 +1,7 @@
 package com.model.metas;
 
+import com.util.MascaraFinanceira;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,7 +20,7 @@ public class Meta{
 	Meta(String data,String valor){
 		this.data = new SimpleStringProperty(data);
 		this.valor = new SimpleStringProperty(valor);
-		this.descricao = new SimpleStringProperty("Ter uma Carteira de Investimentos de R$ "+valor+" até "+data);
+		this.descricao = new SimpleStringProperty("Ter uma Carteira de Investimentos de R$ "+MascaraFinanceira.formataMoeda(new Double(valor))+" até "+data);
 	}
 	
 	Meta(String data,double valor){

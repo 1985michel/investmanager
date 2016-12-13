@@ -36,6 +36,8 @@ public class EstruturaData {
 		return dataNoFormato;
 
 	}
+	
+	
 
 	public static StringProperty estruturaData(StringProperty dataAtendimentoProperty) {
 
@@ -52,10 +54,29 @@ public class EstruturaData {
 		return dataFormatadaProperty;
 	}
 	
+	public static String estruturaData(LocalDate dataIn) {
+
+		String data = dataIn.toString();
+
+		return EstruturaData.estruturaData(data);
+	}
+	
 	public static long getQtdDias(String data) {
 		LocalDate hoje = LocalDate.now();
 		LocalDate dataDoInvestimento = EstruturaData.getLocalDate(data);
 		return  ChronoUnit.DAYS.between(dataDoInvestimento, hoje);
+	}
+	
+	public static long getQtdMesesFromNow(String data){
+		LocalDate hoje = LocalDate.now();
+		LocalDate dataPrevista = EstruturaData.getLocalDate(data);
+		return ChronoUnit.MONTHS.between(hoje, dataPrevista);
+	}
+	
+	public static long getQtdMeses(String data, String data2){
+		LocalDate dataPrevista = EstruturaData.getLocalDate(data);
+		LocalDate dataPrevista2 = EstruturaData.getLocalDate(data2);
+		return ChronoUnit.MONTHS.between(dataPrevista2, dataPrevista);
 	}
 
 }
