@@ -15,17 +15,18 @@ public class AcompanhamentoDeMeta {
 
 	long qtdDeMeses;
 	double parcelas;
-	double acumulado;
+	double valorInicial;
+	double valorAtual;
 
-	public AcompanhamentoDeMeta(Meta meta, List<Meta> subMetas) {
+	public AcompanhamentoDeMeta(double valorInicial, Meta meta, List<Meta> subMetas) {
 		
 		this.qtdDeMeses = EstruturaData.getQtdMesesFromNow(meta.getData());
-		this.parcelas = new Double(meta.getValor())/qtdDeMeses;
+		this.parcelas = new Double(meta.getInvestimentoNecessario())/qtdDeMeses;
 		
 		ArrayList<LocalDate> datas = geradoraDeDatas();
 		
 		for (int i = 0; i < qtdDeMeses; i++) {
-			subMetas.add(new Meta(EstruturaData.estruturaData(datas.get(i)), this.parcelas));			
+			subMetas.add(new Meta(EstruturaData.estruturaData(datas.get(i)),valorInicial, this.parcelas));			
 		}
 
 	}

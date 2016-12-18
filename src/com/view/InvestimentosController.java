@@ -419,20 +419,7 @@ public class InvestimentosController {
 		}
 	}
 
-	void refreshTable() {
-		final List<Investimento> items = todosInvestimentosTableView.getItems();
-		if (items == null || items.size() == 0)
-			return;
 
-		final Investimento item = todosInvestimentosTableView.getItems().get(0);
-		items.remove(0);
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				items.add(0, item);
-			}
-		});
-	}
 
 	// Método que verifica se o investimento é do tipo selecionado no comboBox
 	private boolean isTipoFiltrado(Investimento i) {
